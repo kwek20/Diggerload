@@ -16,7 +16,7 @@ De wereld
   	Hierdoor zie je alle lagen, en de materialen die je wilt hebben/graven.
   	Op ieder moment van het spel word maar een deel van de wereld getoond.
   	Per laag is er een verdeling van materialen. Hoe dieper, hoe waardevoller de materialen.
-  	Op laag 0, de graslaag, staan alle winkels. Hierboven is geen gond, maar lucht. 
+  	Op laag 0, de graslaag, staan alle winkels. Hierboven is geen grond, maar lucht. 
   	Lucht heeft verder geen functie.
 
 Acties
