@@ -100,12 +100,10 @@ public class Terrain {
 	 * @return the cropped tile map
 	 */
 	private static int[][] cropTileMap(int[][] tileMap, int pX, int pY) {
-		Log.i("CropTileMap", "px: " + pX + " pY: " + pY);
 		int[][] croppedTileMap = new int[20][20];
 		
 		for (int i = 0; i < croppedTileMap[0].length; i++) {
 			for (int k = 0; k < croppedTileMap.length; k++) {
-				Log.i("TEST_TEST", "i: " + i + " k: " + k + "  ");
 				croppedTileMap[i][k] = tileMap[((pX + 20) - (croppedTileMap[0].length / 2)) + i][((pY + 20) - (croppedTileMap.length / 2)) + k];
 			}
 		}
