@@ -6,13 +6,8 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
-<<<<<<< HEAD
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application android:persistent="true">
-=======
-    
-    <application>
->>>>>>> Edit: Some stuff
         <activity android:name="net.castegaming.game.Diggerload">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
