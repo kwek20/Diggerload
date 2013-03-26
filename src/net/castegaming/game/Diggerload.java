@@ -46,10 +46,12 @@ public class Diggerload extends GameEngine {
 		};
 		
 		
-		GameTiles myTiles = new GameTiles(tileImagesNames, tilemap, 32);
-		//Terrain.createFiles();
-		// GameTiles myTiles = new GameTiles(tileImagesNames, Terrain.getTileMap(2, 4, 10, 10), 32);
+		//GameTiles myTiles = new GameTiles(tileImagesNames, tilemap, 32);
+		//setTileMap(myTiles);
+		Terrain.createFiles();
+		GameTiles myTiles = new GameTiles(tileImagesNames, Terrain.getTileMap(2, 4, 10, 10), 32);
 		setTileMap(myTiles);
+		
 		Log.i("Diggerload", "GameTiles created");
 		Log.i("Diggerload", "length: " + tilemap[0].length);
     }
