@@ -2,9 +2,9 @@ package net.castegaming.game.entities;
 
 import net.castegaming.game.enums.EntityType;
 
-public class badGuy extends Enemy{
+public class BadGuy extends Enemy{
 
-	public badGuy(EntityType type, double x, double y) {
+	public BadGuy(EntityType type, double x, double y) {
 		super(EntityType.BADGUY, x, y);
 		onSpawn();
 	}
