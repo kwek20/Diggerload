@@ -1,4 +1,4 @@
-package terrain;
+package net.castegaming.game.terrain;
 
 import java.util.Arrays;
 import java.util.List;
