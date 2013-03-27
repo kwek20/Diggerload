@@ -19,10 +19,12 @@ public final class R {
         public static final int dpad=0x7f020005;
         public static final int grass=0x7f020006;
         public static final int ic_launcher=0x7f020007;
-        public static final int select=0x7f020008;
-        public static final int shoulder1=0x7f020009;
-        public static final int shoulder2=0x7f02000a;
-        public static final int start=0x7f02000b;
+        public static final int iron=0x7f020008;
+        public static final int select=0x7f020009;
+        public static final int shoulder1=0x7f02000a;
+        public static final int shoulder2=0x7f02000b;
+        public static final int start=0x7f02000c;
+        public static final int stone=0x7f02000d;
     }
     public static final class string {
         public static final int app_name=0x7f030000;
