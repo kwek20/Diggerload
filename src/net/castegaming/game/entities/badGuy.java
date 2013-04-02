@@ -11,19 +11,16 @@ public class BadGuy extends Enemy{
 
 	@Override
 	public void onSpawn() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onTouch() {
-		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
 		
 	}
 }

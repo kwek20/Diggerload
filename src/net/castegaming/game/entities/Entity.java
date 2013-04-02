@@ -113,4 +113,12 @@ public abstract class Entity extends MoveableGameObject implements ICollision{
 	public void setDeath(boolean state){
 		death = state;
 	}
+	
+	/**
+	 * Marks the entitys death.
+	 */
+	public void die(){
+		setHealth(0);
+		setDeath(true);
+	}
 }
