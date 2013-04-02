@@ -2,6 +2,7 @@ package net.castegaming.game.loadout;
 
 import java.util.ArrayList;
 
+import net.castegaming.game.entities.Player;
 import net.castegaming.game.enums.LoadOutType;
 
 /**
