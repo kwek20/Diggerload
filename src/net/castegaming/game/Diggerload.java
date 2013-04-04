@@ -29,7 +29,7 @@ public class Diggerload extends GameEngine {
 		String[] tileImagesNames = { "dirt", "stone", "iron", "grass" };
 		
 		Terrain.createFiles();
-		GameTiles myTiles = new GameTiles(tileImagesNames, Terrain.getTileMap(2, 4, 10, 10), 32);
+		GameTiles myTiles = new GameTiles(tileImagesNames, Terrain.getTileMap(1, 1, 10, 10), 32);
 		setTileMap(myTiles);
     }
 }

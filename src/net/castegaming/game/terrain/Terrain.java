@@ -26,8 +26,8 @@ public class Terrain {
 	static int[][] genPercent = 
 		{
 			{-1, 100},
-			{ 0, 100, 1, 10, 2, 5, 3, 8},
-			{ 0, 100, 1, 12, 2, 8, 3, 9},
+			{ 0, 100, 1, 10, 2, 5},
+			{ 0, 100, 1, 12, 2, 8},
 			{ 1, 100}
 		};
 	
@@ -142,10 +142,10 @@ public class Terrain {
 	 */
 	public static void generateChunk(int x, int y) {
 		Log.i("GenerateChunk", "");
-		clearChunk(genPercent[x][0]);
+		// clearChunk(genPercent[x][0]);
 		
-		for (int t = 2; t < genPercent[x].length; t += 2) {
-			fillChunk(genPercent[x][x], genPercent[x][x + 1]);
+		for (int t = 0; t < genPercent[x].length - 2; t += 2) {
+			fillChunk(genPercent[x][t], genPercent[x][t + 1]);
 		}
 		
 		Terrain.x = x;

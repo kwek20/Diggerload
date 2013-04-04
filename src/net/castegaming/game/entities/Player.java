@@ -16,9 +16,7 @@ public class Player extends Entity{
 	public void update() {
 		fuelLevel -= 0.01;
 		
-		double direction;
-		if (getDirection() > 180) direction = getDirection()-0.1;
-		else direction = getDirection()+0.1;
+		double direction = (getDirection() > 180) ? getDirection() - 0.1 : getDirection() + 0.1;
 		
 		setDirectionSpeed(direction, getSpeed() - 0.1);
 		
@@ -33,8 +31,8 @@ public class Player extends Entity{
 	}
 	
 	/**
-	 * Returns teh fuel level 
-	 * @return The level in an int
+	 * Returns the fuel level 
+	 * @return the current fuel level
 	 */
 	public double getFuelLevel(){
 		return fuelLevel;
