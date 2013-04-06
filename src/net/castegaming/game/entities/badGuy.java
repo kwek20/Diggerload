@@ -4,7 +4,7 @@ import net.castegaming.game.enums.EntityType;
 
 public class BadGuy extends Enemy{
 
-	public BadGuy(EntityType type, double x, double y) {
+	public BadGuy(double x, double y) {
 		super(EntityType.BADGUY, x, y);
 		onSpawn();
 	}

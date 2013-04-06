@@ -38,7 +38,7 @@ public abstract class Entity extends MoveableGameObject implements ICollision{
 	public Entity(EntityType type, double x, double y){
 		this.type = type;
 		setPosition(x, y);
-		setSprite(type.getSprite(), type.getFrames());
+		setSprite(type.getSprite()   , type.getFrames());
 	}
 	
 	/**
@@ -54,7 +54,10 @@ public abstract class Entity extends MoveableGameObject implements ICollision{
 	 * Defines what todo when this entity updates<br/>
 	 * Mostly used for movement.
 	 */
-	public abstract void update();
+	@Override
+	public void update(){
+		super.update();
+	}
 	
 	/**
 	 * Sends you the type of entity

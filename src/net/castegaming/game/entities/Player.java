@@ -1,19 +1,24 @@
 package net.castegaming.game.entities;
 
 import net.castegaming.game.enums.EntityType;
+import net.castegaming.game.loadout.LoadOut;
 
 public class Player extends Entity{
 	
 	private double fuelLevel;
-
+	LoadOut[] loadOuts;
+	
+	
 	public Player() {
-		super(EntityType.PLAYER);
+		super(EntityType.PLAYER, 1, 1);
+		loadOuts = new LoadOut[4];
 		setFuelLevel(100.0);
 		setFriction(0.05);
 	}
 
 	@Override
 	public void update() {
+		super.update();
 		fuelLevel -= 0.01;
 		
 		double direction = (getDirection() > 180) ? getDirection() - 0.1 : getDirection() + 0.1;
