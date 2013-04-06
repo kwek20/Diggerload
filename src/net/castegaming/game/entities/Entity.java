@@ -7,6 +7,7 @@ import net.castegaming.game.enums.EntityType;
 import android.gameengine.icadroids.objects.MoveableGameObject;
 import android.gameengine.icadroids.objects.collisions.ICollision;
 import android.gameengine.icadroids.objects.collisions.TileCollision;
+import android.util.Log;
 
 /**
  * Base class for all the entities.
@@ -38,7 +39,7 @@ public abstract class Entity extends MoveableGameObject implements ICollision{
 	public Entity(EntityType type, double x, double y){
 		this.type = type;
 		setPosition(x, y);
-		setSprite(type.getSprite()   , type.getFrames());
+		setSprite(type.getSprite(), type.getFrames());
 	}
 	
 	/**
