@@ -19,6 +19,7 @@ public class Player extends Entity implements IAlarm{
 	
 	HashMap<String, Paint> messages = new HashMap<String, Paint>();
 	HashMap<String, Integer[]> messagesPos = new HashMap<String, Integer[]>();
+	HashMap<Integer, String> messagesID = new HashMap<Integer, String>();
 	
 	private double fuelLevel;
 	LoadOut[] loadOuts;
@@ -102,6 +103,7 @@ public class Player extends Entity implements IAlarm{
 			setSpeed(0);
 			canMove = false;
 			new Alarm(1337, 50, this);
+			text(5, 20, "made collision", 50, 50, 1);
 			return; 		// might be considered ugly by some colleagues...
 		    }
 		}
@@ -110,6 +112,13 @@ public class Player extends Entity implements IAlarm{
 	@Override
 	public void triggerAlarm(int alarmID) {
 		canMove = true;
+		
+		if (alarmID >= 100 && alarmID < 200){
+			
+			messages.remove(messagesID.get(alarmID));
+			messagesPos.remove(messagesID.get(alarmID));
+			messagesID.remove(messagesID.get(alarmID));
+		}
 	}
 	
 	/**
@@ -125,7 +134,8 @@ public class Player extends Entity implements IAlarm{
 	}
 	
 	/**
-	 * Creates text with the default time: 100 loops
+	 * Creates text with the time defined<br/>
+	 * Limited to 100 messages!!
 	 * @param size The size of the text
 	 * @param color The color of the text
 	 * @param text The text
@@ -139,6 +149,8 @@ public class Player extends Entity implements IAlarm{
 		p.setTextSize(size);
 		messages.put(text, p);
 		messagesPos.put(text, new Integer[]{x, y});
+		messagesID.put(100 + messages.size(), text);
+		new Alarm(100 + messages.size(), time, this);
 	}
 	
 	@Override
