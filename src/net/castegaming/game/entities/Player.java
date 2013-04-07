@@ -92,21 +92,6 @@ public class Player extends Entity implements IAlarm{
 
 	@Override
 	public void update() {
-		/*
-		if (TouchInput.onPress && canMove){
-			if (TouchInput.xPos > GameEngine.getScreenWidth()/2){
-				move(MoveWay.RIGHT);
-			} else if (TouchInput.xPos <= GameEngine.getScreenWidth()/2){
-				move(MoveWay.LEFT);
-			} else if (TouchInput.yPos > GameEngine.getScreenHeight()/2){
-				move(MoveWay.DOWN);
-			} else if (TouchInput.yPos <= GameEngine.getScreenHeight()/2){
-				move(MoveWay.UP);
-			}
-		}
-		*/
-		
-		
 		super.update();
 		fuelLevel -= 0.01;
 		
@@ -209,18 +194,12 @@ public class Player extends Entity implements IAlarm{
 	}
 	
 	private void movePlayer(Direction d) {
-		if (d.equals(Direction.UP)) {
-			if (validMove(playerX, playerY - 1))
-				playerY -= 1;
-		} else if (d.equals(Direction.RIGHT)) {
+		if (d.equals(Direction.UP) ||  d.equals(Direction.DOWN)) {
+			if (validMove(playerX, playerY - d.move))
+				playerY += d.move;
+		} else if (d.equals(Direction.RIGHT) || d.equals(Direction.LEFT)) {
 			if (validMove(playerX + 1, playerY))
-				playerX += 1;
-		} else if (d.equals(Direction.DOWN)) {
-			if (validMove(playerX, playerY + 1))
-				playerY += 1;
-		} else if (d.equals(Direction.LEFT)) {
-			if (validMove(playerX - 1, playerY))
-				playerX -= 1;
+				playerX += d.move;
 		} else {
 			Log.e("movePlayer", "invalid direction");
 		}
@@ -263,10 +242,6 @@ public class Player extends Entity implements IAlarm{
 		}
 	}
 	
-	public void move(MoveWay way){
-		setDirectionSpeed(way.direction, 5);
-	}
-	
 	public void drill(int collisionSide){
 		getTileOnPosition(getX(), getY()).setTileType(0);
 	}
@@ -277,12 +252,11 @@ public class Player extends Entity implements IAlarm{
 		
 		for (TileCollision tc : collidedTiles) { 
 		    if (tc.theTile.getTileType() >= 0) {
-			moveUpToTileSide(tc);
-			setSpeed(0);
-			canMove = false;
-			new Alarm(1337, 50, this);
-			text(5, 20, "made collision", 50, 50, 1);
-			return; 		// might be considered ugly by some colleagues...
+				setSpeed(0);
+				Log.i("COLLISION", "WORKED");
+				canMove = false;
+				new Alarm(1337, 500, this);
+				return;
 		    }
 		}
 	}
@@ -290,50 +264,11 @@ public class Player extends Entity implements IAlarm{
 	@Override
 	public void triggerAlarm(int alarmID) {
 		canMove = true;
-		
-		if (alarmID >= 100 && alarmID < 200){
-			
-			messages.remove(messagesID.get(alarmID));
-			messagesPos.remove(messagesID.get(alarmID));
-			messagesID.remove(messagesID.get(alarmID));
-		}
-	}
-	
-	/**
-	 * Creates text with the default time: 100 loops
-	 * @param size The size of the text
-	 * @param color The color of the text
-	 * @param text The text
-	 * @param x The x of the text
-	 * @param y The y of the text
-	 */
-	private void text(float size, int color, String text, int x, int y){
-		text(size, color, text, x, y, 100);
-	}
-	
-	/**
-	 * Creates text with the time defined<br/>
-	 * Limited to 100 messages!!
-	 * @param size The size of the text
-	 * @param color The color of the text
-	 * @param text The text
-	 * @param x The x of the text
-	 * @param y The y of the text
-	 * @param time The time in gameticks this message will be displayed
-	 */
-	private void text(float size, int color, String text, int x, int y, int time){
-		Paint p = new Paint();
-		p.setColor(color);
-		p.setTextSize(size);
-		messages.put(text, p);
-		messagesPos.put(text, new Integer[]{x, y});
-		messagesID.put(100 + messages.size(), text);
-		new Alarm(100 + messages.size(), time, this);
 	}
 	
 	@Override
-	public void drawGameObject(Canvas canvas) {
-		super.drawGameObject(canvas);
+	public void drawCustomObjects(Canvas canvas) {
+		super.drawCustomObjects(canvas);
 		for (String m : messages.keySet()){
 			canvas.drawText(m, messagesPos.get(m)[0], messagesPos.get(m)[1], messages.get(m));
 		}
