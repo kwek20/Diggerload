@@ -32,7 +32,7 @@ public class T {
 	
 	private static int[][] genPercent = 
 		{
-			{},
+			{Block.VOID.ID, 100},
 			{Block.AIR.ID, 100},
 			{Block.DIRT.ID, 100, Block.STONE.ID, 20},
 			{Block.DIRT.ID, 100, Block.STONE.ID, 20},
@@ -40,7 +40,8 @@ public class T {
 			{Block.DIRT.ID, 100, Block.STONE.ID, 20},
 			{Block.DIRT.ID, 100, Block.STONE.ID, 20},
 			{Block.DIRT.ID, 100, Block.STONE.ID, 20},
-			{Block.DIRT.ID, 100, Block.STONE.ID, 20}
+			{Block.DIRT.ID, 100, Block.STONE.ID, 20},
+			{Block.VOID.ID, 100}
 		};
 
 	/**

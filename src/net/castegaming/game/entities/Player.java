@@ -22,6 +22,11 @@ public class Player extends Entity implements IAlarm{
 	private double fuelLevel;
 	LoadOut[] loadOuts;
 	
+	/**
+	 * The amount of money the player has
+	 */
+	public static double money;
+	
 	private boolean movingMode = true;
 	private int playerX = 100;
 	private int playerY = 40;

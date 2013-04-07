@@ -66,4 +66,11 @@ public abstract class Button extends GameObject{
 	 * Function to be called on button press.
 	 */
 	public abstract void action();
+	
+	/**
+	 * Function used to delete the button.
+	 */
+	public void remove() {
+		super.deleteThisGameObject();
+	}
 }

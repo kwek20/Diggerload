@@ -15,6 +15,14 @@ public class LoadOut {
 	protected LoadOutType type;
 	
 	/**
+	 * Function used the get the price of the current loadout.
+	 * @return the price of the loadout
+	 */
+	public int getPrice() {
+		return price;
+	}
+
+	/**
 	 * Constructor used to initialize the LoadOut.
 	 * 
 	 * @param maxCapacity variable used to store the max value for the selected loadOut
