@@ -1,5 +1,6 @@
 package net.castegaming.game.terrain;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -10,6 +11,12 @@ import net.castegaming.game.enums.Direction;
 import android.gameengine.icadroids.persistence.GamePersistence;
 import android.util.Log;
 
+/**
+ * Class used to handle all terrain generation/removal
+ * 
+ * @author Jasper
+ * @version 2.2
+ */
 public class T {
 	private static long seed = 9373;
 	private static Random rn;
@@ -19,10 +26,24 @@ public class T {
 	
 	private static int[][] chunk = new int[20][200];
 	
-	private static int VOID = 0;
-	private static int AIR = 1;
-	private static int DIRT = 2;
-	private static int STONE = 3;
+	/**
+	 * Variable that holds the block id for the VOID block
+	 */
+	public static int VOID = 0;
+	/**
+	 * Variable that holds the block id for the AIR block
+	 */
+	public static int AIR = 1;
+	/**
+	 * Variable that holds the block id for the DIRT block
+	 */
+	public static int DIRT = 2;
+	/**
+	 * Variable that holds the block id for the STONE block
+	 */
+	public static int STONE = 3;
+	
+	private static ArrayList<Integer> blockBreakingBlackList = new ArrayList<Integer>(VOID);
 	
 	private static int[][] genPercent = 
 		{
@@ -37,10 +58,17 @@ public class T {
 			{DIRT, 100, STONE, 20}
 		};
 
+	/**
+	 *  Function used to set the seed for the current level. <br /> The seed defaults to 9373. 
+	 * @param seed - the variable used as the new seed.
+	 */
 	public static void setSeed(long seed) {
 		T.seed = seed;
 	}
 	
+	/**
+	 * Function used to create the save files.
+	 */
 	public static void createFiles() {
 		for (int i = 0; i < 10; i++) {
 			GamePersistence file = new GamePersistence(i + ".txt");
@@ -49,12 +77,23 @@ public class T {
 		}
 	}
 	
+	/**
+	 * Function used to clear all save files.
+	 */
 	public static void clearFiles() {
 		for (int y = 0; y <genPercent.length; y++) {
 			GamePersistence file = new GamePersistence(y + ".txt");
 			file.saveData("");
 		}
 	}
+	
+	/**
+	 * Function used to get the tilemap. <br /> The tilemap is centered around the player.
+	 * 
+	 * @param pX - the absolute player position (x)
+	 * @param pY - the absolute player position (y)
+	 * @return the tilemap. The size of the tilmap is depended on the window height and window width variables declared in T
+	 */
 	public static int[][] getTileMap(int pX, int pY) {
 		return cropTileMap(fillTileMap(pY), pX, pY);
 	}
@@ -144,16 +183,56 @@ public class T {
 		}
 	}
 	
-	public static void breakBlock(Direction dir, int pX, int pY) {
+	/**
+	 * Function used to break a specific block around the player.
+	 *  
+	 * @param dir - the direction of the block that should be broken
+	 * @param pX - the absolute player position (x)
+	 * @param pY - the absolute player position (y)
+	 * @return true is the block has successfully been broken/ mined.
+	 * 
+	 * @see Direction
+	 */
+	public static boolean breakBlock(Direction dir, int pX, int pY) {
 		if (dir == Direction.UP) {
-			save(pY - 1, pX);
+			if (canBeBroken(pY - 1, pX))
+				save(pY - 1, pX);
+			return canBeBroken(pY - 1, pX);
 		} else if (dir == Direction.RIGHT) {
-			save(pY, pX + 1);
+			if (canBeBroken(pY, pX + 1))
+				save(pY, pX + 1);
+			return canBeBroken(pY, pX + 1);
 		} else if (dir == Direction.DOWN) {
-			save(pY + 1, pX);
+			if (canBeBroken(pY + 1, pX))
+				save(pY + 1, pX);
+			return canBeBroken(pY + 1, pX);
 		} else if (dir == Direction.LEFT) {
-			save(pY, pX - 1);
+			if (canBeBroken(pY, pX - 1))
+				save(pY, pX - 1);
+			return canBeBroken(pY, pX - 1);
 		}
+		
+		return false;
+	}
+	
+	/**
+	 * Function used to determine whether or not a block can be broken/mined. 
+	 * 
+	 * @param x - the absolute x position of the block to be checked.
+	 * @param y - the absolute y position of the block to be checked.
+	 * @return true if the block can be broken/ mined.
+	 */
+	public static boolean canBeBroken(int x, int y) {
+		int chunkY = (y % 20) == 0 ? ((y - 1) / chunk.length) : (y / chunk.length);
+		getChunk(chunkY);
+		
+		for (Integer i : blockBreakingBlackList) {
+			if (chunk[y - ((y / chunk.length) * chunk.length)][x] == i) {
+				return false;
+			}
+		}
+		
+		return true;
 	}
 	
 	private static void save(int y, int x) {

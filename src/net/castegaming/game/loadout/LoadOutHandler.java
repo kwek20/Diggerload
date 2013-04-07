@@ -47,6 +47,8 @@ public class LoadOutHandler {
 	 * Function the add a new loadout
 	 *
 	 * @param newLoadOut the new loadout to be added
+	 * 
+	 * @see LoadOutType
 	 */
 	public void addNewLoadout(LoadOut newLoadOut) {
 		if (lo.size() < maxNrOfLoadOuts)
