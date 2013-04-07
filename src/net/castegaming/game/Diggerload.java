@@ -4,17 +4,11 @@ import net.castegaming.game.entities.BadGuy;
 import net.castegaming.game.entities.Player;
 import net.castegaming.game.enums.Direction;
 import net.castegaming.game.terrain.T;
-import net.castegaming.game.terrain.Terrain;
 import android.R.color;
 import android.gameengine.icadroids.engine.GameEngine;
 import android.gameengine.icadroids.input.TouchInput;
-import android.gameengine.icadroids.objects.GameObject;
 import android.gameengine.icadroids.tiles.GameTiles;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.util.Log;
-import android.graphics.Canvas;
-import android.graphics.Color;
 
 public class Diggerload extends GameEngine {
 	
