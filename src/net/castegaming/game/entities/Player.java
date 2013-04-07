@@ -1,40 +1,34 @@
 package net.castegaming.game.entities;
 
 import java.util.HashMap;
-import java.util.List;
 
 import Input.Button;
 import Input.MoveModeChangingButton;
-import android.gameengine.icadroids.alarms.Alarm;
+import android.R.integer;
 import android.gameengine.icadroids.alarms.IAlarm;
 import android.gameengine.icadroids.engine.GameEngine;
 import android.gameengine.icadroids.input.OnScreenButtons;
 import android.gameengine.icadroids.input.TouchInput;
-import android.gameengine.icadroids.objects.collisions.TileCollision;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.util.Log;
 import net.castegaming.game.Diggerload;
+import net.castegaming.game.enums.Block;
 import net.castegaming.game.enums.Direction;
 import net.castegaming.game.enums.EntityType;
-import net.castegaming.game.enums.MoveWay;
 import net.castegaming.game.loadout.LoadOut;
 import net.castegaming.game.terrain.T;
 
 public class Player extends Entity implements IAlarm{
 	
-	HashMap<String, Paint> messages = new HashMap<String, Paint>();
-	HashMap<String, Integer[]> messagesPos = new HashMap<String, Integer[]>();
-	HashMap<Integer, String> messagesID = new HashMap<Integer, String>();
-	
 	private double fuelLevel;
 	LoadOut[] loadOuts;
-	private boolean canMove = true;
 	
 	private boolean movingMode = true;
 	private int playerX = 100;
 	private int playerY = 40;
 	private Button movingModeButton;
+	private boolean canMove;
+	private int points = 0;
 	
 	/**
 	 * @author Jasper
@@ -60,6 +54,7 @@ public class Player extends Entity implements IAlarm{
 		super(EntityType.PLAYER, 
 				(GameEngine.getScreenWidth() / 2)- ((GameEngine.getScreenWidth() / 2) % 32), 
 				(GameEngine.getScreenHeight() / 2)- ((GameEngine.getScreenHeight() / 2) % 32));
+		
 		loadOuts = new LoadOut[4];
 		setFuelLevel(100.0);
 		setFriction(0.05);
@@ -203,11 +198,10 @@ public class Player extends Entity implements IAlarm{
 		} else {
 			Log.e("movePlayer", "invalid direction");
 		}
-		
 	}
 	
 	private boolean validMove(int x, int y) {
-		return (T.getTileType(x, y) == T.AIR);
+		return (T.getTileType(x, y) == Block.AIR.ID);
 	}
 	
 	private boolean xGreaterThenY() {
@@ -241,25 +235,6 @@ public class Player extends Entity implements IAlarm{
 			fuelLevel -= toDraing;
 		}
 	}
-	
-	public void drill(int collisionSide){
-		getTileOnPosition(getX(), getY()).setTileType(0);
-	}
-	
-	@Override
-	public void collisionOccurred(List<TileCollision> collidedTiles) {
-		super.collisionOccurred(collidedTiles);
-		
-		for (TileCollision tc : collidedTiles) { 
-		    if (tc.theTile.getTileType() >= 0) {
-				setSpeed(0);
-				Log.i("COLLISION", "WORKED");
-				canMove = false;
-				new Alarm(1337, 500, this);
-				return;
-		    }
-		}
-	}
 
 	@Override
 	public void triggerAlarm(int alarmID) {
@@ -269,8 +244,24 @@ public class Player extends Entity implements IAlarm{
 	@Override
 	public void drawCustomObjects(Canvas canvas) {
 		super.drawCustomObjects(canvas);
-		for (String m : messages.keySet()){
-			canvas.drawText(m, messagesPos.get(m)[0], messagesPos.get(m)[1], messages.get(m));
-		}
+
+	}
+
+	/**
+	 * Function to handle a player which breaks a block
+	 */
+	public void breakblock() {
+		int blocktype = T.getTileType(playerX, playerY);
+		givePoints(blocktype);
+		
+		T.breakBlock(Direction.DOWN, getPlayerX(), getPlayerY() - 1);
+	}
+	
+	/**
+	 * Gives points to the player according to the block given.
+	 * @param blockType The block to get the points from, and give that to the player.
+	 */
+	public void givePoints(int blockType){
+		points += Block.fromID(blockType).points;
 	}
 }

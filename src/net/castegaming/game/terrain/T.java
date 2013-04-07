@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Random;
 
 import net.castegaming.game.Diggerload;
+import net.castegaming.game.entities.BadGuy;
+import net.castegaming.game.enums.Block;
 import net.castegaming.game.enums.Direction;
 
 import android.gameengine.icadroids.persistence.GamePersistence;
@@ -26,36 +28,19 @@ public class T {
 	
 	private static int[][] chunk = new int[20][200];
 	
-	/**
-	 * Variable that holds the block id for the VOID block
-	 */
-	public static int VOID = 0;
-	/**
-	 * Variable that holds the block id for the AIR block
-	 */
-	public static int AIR = 1;
-	/**
-	 * Variable that holds the block id for the DIRT block
-	 */
-	public static int DIRT = 2;
-	/**
-	 * Variable that holds the block id for the STONE block
-	 */
-	public static int STONE = 3;
-	
-	private static ArrayList<Integer> blockBreakingBlackList = new ArrayList<Integer>(VOID);
+	private static ArrayList<Integer> blockBreakingBlackList = new ArrayList<Integer>(Block.VOID.ID);
 	
 	private static int[][] genPercent = 
 		{
-			{VOID, 100},
-			{AIR, 100},
-			{DIRT, 100, STONE, 20},
-			{DIRT, 100, STONE, 20},
-			{DIRT, 100, STONE, 20},
-			{DIRT, 100, STONE, 20},
-			{DIRT, 100, STONE, 20},
-			{DIRT, 100, STONE, 20},
-			{DIRT, 100, STONE, 20}
+			{},
+			{Block.AIR.ID, 100},
+			{Block.DIRT.ID, 100, Block.STONE.ID, 20},
+			{Block.DIRT.ID, 100, Block.STONE.ID, 20},
+			{Block.DIRT.ID, 100, Block.STONE.ID, 20},
+			{Block.DIRT.ID, 100, Block.STONE.ID, 20},
+			{Block.DIRT.ID, 100, Block.STONE.ID, 20},
+			{Block.DIRT.ID, 100, Block.STONE.ID, 20},
+			{Block.DIRT.ID, 100, Block.STONE.ID, 20}
 		};
 
 	/**
@@ -150,7 +135,7 @@ public class T {
 				
 				for (int i = 0; i <= 0; i++) {
 					//for (int k = -40; k < 50; k++) {
-						chunk[Integer.parseInt(index.get(0)) + i][Integer.parseInt(index.get(1)) - (windowWidth / 3)] = AIR;
+						chunk[Integer.parseInt(index.get(0)) + i][Integer.parseInt(index.get(1)) - (windowWidth / 3)] = Block.AIR.ID;
 					//}
 				}
 				// chunk[Integer.parseInt(index.get(0))][Integer.parseInt(index.get(1))] = AIR;
@@ -195,25 +180,35 @@ public class T {
 	 */
 	public static boolean breakBlock(Direction dir, int pX, int pY) {
 		pX += 11;
+		
+		boolean canBeBroken = false;
+		
 		if (dir == Direction.UP) {
 			if (canBeBroken(pY - 1, pX))
 				save(pY - 1, pX);
-			return canBeBroken(pY - 1, pX);
+			canBeBroken = canBeBroken(pY - 1, pX);
 		} else if (dir == Direction.RIGHT) {
 			if (canBeBroken(pY, pX + 1))
 				save(pY, pX + 1);
-			return canBeBroken(pY, pX + 1);
+			canBeBroken = canBeBroken(pY, pX + 1);
 		} else if (dir == Direction.DOWN) {
 			if (canBeBroken(pY + 1, pX))
 				save(pY + 1, pX);
-			return canBeBroken(pY + 1, pX);
+			canBeBroken = canBeBroken(pY + 1, pX);
 		} else if (dir == Direction.LEFT) {
 			if (canBeBroken(pY, pX - 1))
 				save(pY, pX - 1);
-			return canBeBroken(pY, pX - 1);
+			canBeBroken = canBeBroken(pY, pX - 1);
 		}
 		
-		return false;
+		if (canBeBroken){
+			int chance = new Random().nextInt(10);
+			if (chance == 1){
+				new BadGuy(pX, pY);
+			}
+		}
+		
+		return canBeBroken;
 	}
 	
 	/**

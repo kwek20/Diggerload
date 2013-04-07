@@ -1,20 +1,17 @@
 package net.castegaming.game;
 
 import net.castegaming.game.entities.BadGuy;
-import net.castegaming.game.entities.Entity;
 import net.castegaming.game.entities.Player;
 import net.castegaming.game.enums.Direction;
 import net.castegaming.game.terrain.T;
 import android.R.color;
 import android.gameengine.icadroids.engine.GameEngine;
-import android.gameengine.icadroids.input.TouchInput;
 import android.gameengine.icadroids.tiles.GameTiles;
 import android.graphics.Canvas;
 import android.util.Log;
 
 public class Diggerload extends GameEngine {
-	
-	Miner m;
+
 	static GameTiles myTiles;
 	private Player player;
 	private int tileSize = 32;
@@ -23,17 +20,14 @@ public class Diggerload extends GameEngine {
 	@Override
 	protected void initialize() {
 		super.initialize();
+		
 		// player initialisation needs to occur before the calling of setTileEnvironment();
 		player = new Player(this);
-		//setTileEnvironment();
-
-		Log.e("player", player.getPlayerX() + "");
-		Log.e("player", player.getPlayerY() + "");
-		Log.e("width", super.getScreenWidth() + "");
+		
+		setTitle("Diggerload Alpha");
 		
 		addGameObject(player);
 		addGameObject(new BadGuy(100, 100));
-		
 	}
 	
 	@Override
@@ -66,7 +60,7 @@ public class Diggerload extends GameEngine {
 		myTiles = new GameTiles(tileImagesNames, T.getTileMap(pX, pY), tileSize);
 		setTileMap(myTiles);
 		// break the initial position of the player
-		T.breakBlock(Direction.DOWN, pX, pY - 1);
+		player.breakblock();
 		myTiles.addTileMap(T.getTileMap(pX, pY), tileSize);
 		myTiles.drawTiles(new Canvas());
     }
