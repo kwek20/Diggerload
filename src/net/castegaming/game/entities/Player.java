@@ -32,7 +32,7 @@ public class Player extends Entity implements IAlarm{
 	
 	private boolean movingMode = true;
 	private int playerX = 100;
-	private int playerY = 40;
+	private int playerY = 39;
 	private Button movingModeButton;
 	
 	/**
