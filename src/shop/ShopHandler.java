@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import Input.Button;
 
 public class ShopHandler {
-	private static ArrayList<Button> repairShop = new ArrayList<Button>();
+	private static Shop repairShop;
 	static private boolean repairShopOpen = false;
 	
-	private static ArrayList<Button> upgradeShop = new ArrayList<Button>();
+	private static Shop upgradeShop;
 	static private boolean upgradeShopOpen = false;
 	
 	public static boolean getUpgradeShopOpen() {
