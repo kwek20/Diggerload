@@ -1,9 +1,11 @@
 package shop;
 
 import java.util.ArrayList;
+
+import android.gameengine.icadroids.objects.GameObject;
 import Input.Button;
 
-public class ShopHandler {
+public class ShopHandler extends GameObject{
 	private static Shop repairShop;
 	static private boolean repairShopOpen = false;
 	
@@ -23,5 +25,18 @@ public class ShopHandler {
 		ShopHandler.repairShopOpen = repairShopOpen;
 	}
 	
-	
+	@ Override
+	public void update() {
+		if (repairShopOpen) {
+			repairShop.createButtons();
+		} else {
+			repairShop.destroyButtons();
+		}
+		
+		if (upgradeShopOpen) {
+			upgradeShop.createButtons();
+		}else {
+			upgradeShop.destroyButtons();
+		}
+	}
 }
