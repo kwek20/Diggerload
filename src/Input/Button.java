@@ -13,7 +13,7 @@ import android.gameengine.icadroids.objects.GameObject;
 public class Button extends GameObject{
 	private int x, y;
 	private int size;
-	private Player playerInstance;
+	private String url;
 	private boolean pressing;
 	
 	/**
@@ -23,10 +23,10 @@ public class Button extends GameObject{
 	 * @param y - the y coordinate of the button
 	 * @param playerInstance - the class the button responds to.
 	 */
-	public Button(int x, int y, Player playerInstance) {
+	public Button(int x, int y, String url) {
 		this.x = x;
 		this.y = y;
-		this.playerInstance = playerInstance;
+		this.url = url;
 	
 		TouchInput.use = true;
 		drawButton();
@@ -62,7 +62,5 @@ public class Button extends GameObject{
 		return (TouchInput.xPos > x && TouchInput.xPos < x + size) && (TouchInput.yPos > y && TouchInput.yPos < y + size);
  	}
 	
-	private void action() {
-		playerInstance.setMovingMode(!playerInstance.getMovingMode());
-	}
+	private abstract void action();
 }
