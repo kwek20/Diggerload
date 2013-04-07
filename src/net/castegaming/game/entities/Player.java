@@ -85,6 +85,8 @@ public class Player extends Entity implements IAlarm{
 	 * Function used to set the moving mode for the player class.
 	 * 
 	 * @param movingMode - true if the player should be able to move.
+	 * 
+	 * @author Jasper
 	 */
 	public void setMovingMode(boolean movingMode) {
 		this.movingMode = movingMode;

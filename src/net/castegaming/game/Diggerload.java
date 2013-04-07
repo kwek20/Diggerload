@@ -1,13 +1,11 @@
 package net.castegaming.game;
 
 import net.castegaming.game.entities.BadGuy;
-import net.castegaming.game.entities.Entity;
 import net.castegaming.game.entities.Player;
 import net.castegaming.game.enums.Direction;
 import net.castegaming.game.terrain.T;
 import android.R.color;
 import android.gameengine.icadroids.engine.GameEngine;
-import android.gameengine.icadroids.input.TouchInput;
 import android.gameengine.icadroids.tiles.GameTiles;
 import android.graphics.Canvas;
 import android.util.Log;
