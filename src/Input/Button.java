@@ -12,7 +12,7 @@ import android.gameengine.icadroids.objects.GameObject;
  */
 public class Button extends GameObject{
 	private int x, y;
-	private int size = 50;
+	private int size;
 	private Player playerInstance;
 	private boolean pressing;
 	
@@ -50,6 +50,8 @@ public class Button extends GameObject{
 	private void drawButton() {
 		super.setPosition(x, y);
 		      setSprite("button1");
+		      
+		size = super.getFrameWidth();
 	}
 	
 	/**
