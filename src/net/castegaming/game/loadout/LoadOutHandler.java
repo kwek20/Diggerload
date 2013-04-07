@@ -32,6 +32,7 @@ public class LoadOutHandler {
 	 */
 	public void updateAllLoadOuts() {
 		playerInstance.setFuelLevel(getHighestLoadOut(LoadOutType.FUELTANK).getCurrentLevel());
+		playerInstance.setHealth(getHighestLoadOut(LoadOutType.HULLSHIELD).getCurrentLevel());
 	}
 	
 	/**
@@ -63,13 +64,27 @@ public class LoadOutHandler {
 		
 		// TODO add more loadout types
 		for (LoadOut l : lo) {
-			if ((type == LoadOutType.FUELTANK) && l instanceof FuelTank) {
-				if (l.getMaxCapacity() > max.getMaxCapacity()) {
-					max = l;
-				}
+			if ((type == LoadOutType.FUELTANK) && l.getType() == LoadOutType.FUELTANK) {
+				max = getMax(max, l);
+			} else if (type == LoadOutType.HULLSHIELD && l.getType() == LoadOutType.FUELTANK) {
+				max = getMax(max, l);
 			}
 		}
 		
 		return max;
+	}
+	
+	/**
+	 * Function used to get the loadout with the highest max capacity
+	 * 
+	 * @param lo1 - loadOut 1
+	 * @param lo2 - loadOut 2
+	 * @return the loadout with the highest max capacity
+	 */
+	private LoadOut getMax(LoadOut lo1, LoadOut lo2) {
+		if (lo1.getMaxCapacity() > lo2.getMaxCapacity()) {
+			return lo1;
+		} else
+			return lo2;
 	}
 }

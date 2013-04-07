@@ -1,5 +1,7 @@
 package net.castegaming.game.loadout;
 
+import net.castegaming.game.enums.LoadOutType;
+
 /**
  * The LoadOut class is the base class for all loadouts, loadouts are used to determine the fuel, damage and health values of the player.
  * 
@@ -10,6 +12,7 @@ public class LoadOut {
 	protected int maxCapacity;
 	protected int currentLevel;
 	protected int price;
+	protected LoadOutType type;
 	
 	/**
 	 * Constructor used to initialize the LoadOut.
@@ -17,10 +20,11 @@ public class LoadOut {
 	 * @param maxCapacity variable used to store the max value for the selected loadOut
 	 * @param price variable used to set the price for the selected loadout
 	 */
-	public LoadOut(int maxCapacity, int price) {
+	public LoadOut(int maxCapacity, int price, LoadOutType type) {
 		this.maxCapacity = maxCapacity;
 		currentLevel = maxCapacity;
 		this.price = price;
+		this.type = type;
 	}
 	
 	/**
@@ -63,5 +67,13 @@ public class LoadOut {
 	 */
 	public int getMaxCapacity() {
 		return maxCapacity;
+	}
+	
+	/**
+	 *  Function used to return the type of the loadout
+	 * @return the load out type (LoadOutType)
+	 */
+	public LoadOutType getType() {
+		return type;
 	}
 }
