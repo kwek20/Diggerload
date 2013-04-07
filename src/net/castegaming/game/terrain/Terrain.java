@@ -11,14 +11,10 @@ import android.util.Log;
  * @version 2.0
  */
 public class Terrain {
-	private static final String FILEPREFIX = "";
-	
-	// path definition for the chunks save files
-	public static final String CHUNKDATAFILE = FILEPREFIX +  "ChunkData.txt";
-	public static final String GENERATEDCHUNKLIST = FILEPREFIX + "ChunkList.txt";
 	
 	// current chunk
 		private static int[][] chunk = new int[20][20];
+		private static int chunkSize = 20;
 		private static int x;
 		private static int y;
 		
@@ -31,21 +27,12 @@ public class Terrain {
 			{ 1, 100}
 		};
 	
-	/**
-	 *  Function used to create files on startup
-	 */
-	public static void createFiles() {
-		GamePersistence chunkData = new GamePersistence(CHUNKDATAFILE);
-		GamePersistence chunkList = new GamePersistence(GENERATEDCHUNKLIST);
-		
-		if (chunkData.loadData().equals("")) {
-			Log.i("CreateFiles", "Creating file: " + CHUNKDATAFILE);
-			chunkData.saveData("");
-		}
-		
-		if (chunkList.loadData().equals("")) {
-			Log.i("CreateFiles", "Creating file: " + GENERATEDCHUNKLIST);
-			chunkList.saveData("");
+	public static void clearEverything() {
+		for(int i = 0 ; i < 20; i++) {
+			for (int k = 0; k < 20; k++) {
+				GamePersistence data = new GamePersistence("" + i + ":" + k + ".txt");
+				data.saveData("");
+			}
 		}
 	}
 	
@@ -104,9 +91,11 @@ public class Terrain {
 		
 		for (int i = 0; i < croppedTileMap[0].length; i++) {
 			for (int k = 0; k < croppedTileMap.length; k++) {
-				croppedTileMap[i][k] = tileMap[((pX + 20) - (croppedTileMap[0].length / 2)) + i][((pY + 20) - (croppedTileMap.length / 2)) + k];
+				croppedTileMap[k][i] = tileMap[((pX + 20) - (croppedTileMap.length / 2)) + i][((pY + 20) - (croppedTileMap[0].length / 2)) + k];
 			}
 		}
+		
+		croppedTileMap[pX + 10][pY + 10] = -1;
 		
 		return croppedTileMap;
 	}
@@ -122,13 +111,15 @@ public class Terrain {
 		Log.i("GetChunk", "");
 		if (!(x == Terrain.x && y == Terrain.y)) {
 			if (chunkExists(x, y)) {
-				getChunkFromMem(x, y, CHUNKDATAFILE, GENERATEDCHUNKLIST);
+				getChunkFromMem(x, y);
 			} else {
 				// generate the chunk
 				// after generation the chunk is automatically saved as chunk
 				generateChunk(x, y);
 			}
 		}
+		
+		saveChunk();
 		
 		return chunk;
 	}
@@ -144,8 +135,8 @@ public class Terrain {
 		Log.i("GenerateChunk", "");
 		// clearChunk(genPercent[x][0]);
 		
-		for (int t = 0; t < genPercent[x].length - 2; t += 2) {
-			fillChunk(genPercent[x][t], genPercent[x][t + 1]);
+		for (int t = 0; t <= genPercent[y].length - 2; t += 2) {
+			fillChunk(genPercent[y][t], genPercent[y][t + 1]);
 		}
 		
 		Terrain.x = x;
@@ -175,20 +166,6 @@ public class Terrain {
 	}
 	
 	/**
-	 * Function to fill the current chunk with a specific type of block
-	 * 
-	 * @param nr the block id to fill the chunk with
-	 */
-	private static void clearChunk(int nr) {
-		Log.i("ClearChunk", "");
-		for (int i = 0; i < chunk.length; i ++) {
-			for (int k = 0; k < chunk[0].length; k++) {
-				chunk[i][k] = nr;
-			}
-		}
-	}
-	
-	/**
 	 * Looks for the chunk id within the save file.
 	 * 
 	 * @param x coordinate used to identify the chunk position
@@ -197,35 +174,8 @@ public class Terrain {
 	 */
 	public static boolean chunkExists(int x, int y) {
 		Log.i("ChunkExists", "");
-		return (getChunkDataRow(x, y, GENERATEDCHUNKLIST) != -1);
-	}
-	
-	/**
-	 * Function used to get the index for the start of the chunk within the save file
-	 * 
-	 * @param x chunk coordinate 
-	 * @param y chunk coordinate
-	 * @param fileName filename to locate the index
-	 * @return the found index/ -1 if the file doesn't hold the coordinates
-	 */
-	private static int getChunkDataRow(int x, int y, String fileName) {
-		Log.i("GetChunkDataRow", "");
-		int count = 0;
-		
-		GamePersistence data = new GamePersistence(fileName);
-		List<String> list = Arrays.asList((data.loadData()).split(","));
-		
-		for (int i = 0; i < list.size(); i++) {
-			if (!(list.get(i).equals(x) && list.get(i + 1).equals(y))) {
-				count ++;
-			}
-		}
-		
-		if (count >= list.size()) {
-			count = -1;
-		}
- 		
-		return count;
+		GamePersistence data = new GamePersistence("" + x + ":" + y + ".txt");
+		return !((data.loadData()).equals(""));
 	}
 	
 	/**
@@ -237,32 +187,81 @@ public class Terrain {
 	 * @param chunkListFile the file to pull the data position from usually Terrain.GENERATEDCHUNKLIST
 	 * @return the newly loaded chunk
 	 */
-	@SuppressWarnings("null")
-	public static int[][] getChunkFromMem(int x, int y, String dataFile, String chunkListFile) {
+	public static int[][] getChunkFromMem(int x, int y) {
 		Log.i("GetChunkFromMem", "");
-		GamePersistence data = new GamePersistence(dataFile);
-
+		
+		GamePersistence data = new GamePersistence("" + x + ":" + y + ".txt");
 		List<String> list = Arrays.asList((data.loadData()).split(","));
 		
-		int startLocation = getChunkDataRow(x, y, chunkListFile);
-		
-		List<Integer> finalList = null;
-		
-		for (int i = 0; i < chunk.length; i++) {
-			for (int k = 0; k < chunk[0].length; k++) {
-				finalList.add(Integer.parseInt(list.get((startLocation * (chunk.length * chunk.length)) + k + i)));
+		for (int i = 0; i < chunkSize; i++) {
+			for (int k = 0; k < chunkSize; k++) {
+				chunk[i][k] = Integer.parseInt(list.get(i + k));
 			}
 		}
 		
+		String temp = "";
 		for (int i = 0; i < chunk.length; i++) {
 			for (int k = 0; k < chunk[0].length; k++) {
-				chunk[i][k] = finalList.get(i + k);
+				temp = temp + chunk[k][i] + ",";
 			}
 		}
 		
 		Terrain.x = x;
 		Terrain.y = y;
 		
+		Log.e("loading:  " + Terrain.x + ":" + Terrain.y, temp);
+		
 		return chunk;
+	}
+	
+	/**
+	 * Removes a specific block from the current chunk.
+	 * 
+	 * @param direction the direction the player is facing (1 - up, 2 - right, 3 - down, 4 - left)
+	 * @param playerX the current player position in relation to the current chunk
+	 * @param playerY the current player position in relation to the current chunk
+	 */
+	public static void removeBlock(int direction, int playerX, int playerY) {
+		switch(direction) {
+		case 1:
+			setBlock(playerX, playerY - 1, -1);
+			break;
+		case 2:
+			setBlock(playerX + 1, playerY, -1);
+			break;
+		case 3:
+			setBlock(playerX, playerY + 1, -1);
+			break;
+		case 4:
+			setBlock(playerX - 1, playerY, -1);
+			break;
+		}
+	}
+	
+	private static void setBlock(int x, int y, int value) {
+		Terrain.x -= 1;
+		Terrain.y -= 1;
+		
+		chunk = getChunkFromMem(Terrain.x, Terrain.y);
+		
+		chunk[x][y] = value; 
+		
+		saveChunk();
+	}
+	
+	private static void saveChunk() {
+		GamePersistence data = new GamePersistence("" + Terrain.x + ":" + Terrain.y + ".txt");
+		data.saveData("");
+		
+		String temp = "";
+		for (int i = 0; i < chunk.length; i++) {
+			for (int k = 0; k < chunk[0].length; k++) {
+				temp = temp + chunk[i][k] + ",";
+			}
+		}
+		
+		Log.e("Saving:    " + Terrain.x + ":" + Terrain.y, temp);
+		
+		data.saveData(temp);
 	}
 }
