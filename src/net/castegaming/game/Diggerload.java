@@ -1,36 +1,26 @@
 package net.castegaming.game;
 
-<<<<<<< HEAD
 import net.castegaming.game.entities.BadGuy;
 import net.castegaming.game.entities.Player;
-=======
 import net.castegaming.game.enums.Direction;
 import net.castegaming.game.terrain.T;
->>>>>>> Edit: diggerload class to test breakblock function
 import net.castegaming.game.terrain.Terrain;
 import android.R.color;
 import android.gameengine.icadroids.engine.GameEngine;
 import android.gameengine.icadroids.input.TouchInput;
 import android.gameengine.icadroids.objects.GameObject;
 import android.gameengine.icadroids.tiles.GameTiles;
-<<<<<<< HEAD
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.util.Log;
-=======
 import android.graphics.Canvas;
 import android.graphics.Color;
->>>>>>> Edit: diggerload class to test breakblock function
 
 public class Diggerload extends GameEngine {
 	
 	Miner m;
-<<<<<<< HEAD
-	 
-=======
 	static GameTiles myTiles;
 	
->>>>>>> Edit: diggerload class to test breakblock function
 	@Override
 	protected void initialize() {
 		super.initialize();
@@ -44,13 +34,9 @@ public class Diggerload extends GameEngine {
 	
 	@Override
 	public void update() {
-<<<<<<< HEAD
-		
-=======
 		super.update();
 		setBackgroundColor(color.white);
 		setScreenLandscape(true);
->>>>>>> Edit: diggerload class to test breakblock function
 	}
 	
 	 /**
@@ -59,16 +45,10 @@ public class Diggerload extends GameEngine {
     private void createTileEnvironment() {
 		String[] tileImagesNames = { "iron", "grass", "dirt", "stone" };
 		
-<<<<<<< HEAD
-		
-		Terrain.createFiles();
-		GameTiles myTiles = new GameTiles(tileImagesNames, Terrain.getTileMap(2, 4, 10, 10), 32);
-=======
 		// Terrain.clearEverything();
 		//T.createFiles();
 		T.clearFiles();
 		myTiles = new GameTiles(tileImagesNames, T.getTileMap(100, 35), 32);
->>>>>>> Edit: diggerload class to test breakblock function
 		setTileMap(myTiles);
 		T.breakBlock(Direction.DOWN, 100, 35);
 		T.breakBlock(Direction.RIGHT, 100, 35);
