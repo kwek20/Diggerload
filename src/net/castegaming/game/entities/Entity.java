@@ -38,8 +38,8 @@ public abstract class Entity extends MoveableGameObject implements ICollision{
 	 */
 	public Entity(EntityType type, double x, double y){
 		this.type = type;
-		setPosition(x, y);
-		setSprite(type.getSprite(), type.getFrames());
+		super.setPosition(x, y);
+			  setSprite(type.getSprite(), type.getFrames());
 	}
 	
 	/**

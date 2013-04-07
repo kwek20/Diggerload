@@ -21,8 +21,8 @@ public class T {
 	private static long seed = 9373;
 	private static Random rn;
 	
-	private static int windowWidth = 100;
-	private static int windowHeight = 20;
+	private static int windowWidth = 33;
+	private static int windowHeight = 18;
 	
 	private static int[][] chunk = new int[20][200];
 	
@@ -81,7 +81,7 @@ public class T {
 	 * Function used to clear all save files.
 	 */
 	public static void clearFiles() {
-		for (int y = 0; y <genPercent.length; y++) {
+		for (int y = 0; y < genPercent.length; y++) {
 			GamePersistence file = new GamePersistence(y + ".txt");
 			file.saveData("");
 		}
@@ -137,16 +137,16 @@ public class T {
 	private static void checkChunkAgainstFile(int y) {
 		GamePersistence file = new GamePersistence(y + ".txt");
 		
-		Log.e("file", file.loadData());
+		//Log.e("file", file.loadData());
 		
 		if (!(file.loadData()).equals("")) {
 			List<String> list = Arrays.asList((file.loadData()).split(":"));
 			for (String st : list) {
 				List<String> index = Arrays.asList(st.split(","));
 				
-				Log.e("file checking", "removing block");
-				Log.e("file checking", "x: " + Integer.parseInt(index.get(1)));
-				Log.e("file checking", "y: " + Integer.parseInt(index.get(0)));
+				//Log.e("file checking", "removing block");
+				//Log.e("file checking", "x: " + Integer.parseInt(index.get(1)));
+				//Log.e("file checking", "y: " + Integer.parseInt(index.get(0)));
 				
 				for (int i = 0; i <= 0; i++) {
 					//for (int k = -40; k < 50; k++) {
@@ -161,8 +161,8 @@ public class T {
 	private static void generateChunk(int y) {
 		rn = new Random(seed);
 		
-		Log.i("gen", y +"");
-		Log.i("gen2", genPercent[y].length + "");
+		//Log.i("gen", y +"");
+		//Log.i("gen2", genPercent[y].length + "");
 		
 		for (int i = 0; i <= genPercent[y].length - 2; i += 2) {
 			fillChunk(genPercent[y][i], genPercent[y][i + 1]);
@@ -189,11 +189,12 @@ public class T {
 	 * @param dir - the direction of the block that should be broken
 	 * @param pX - the absolute player position (x)
 	 * @param pY - the absolute player position (y)
-	 * @return true is the block has successfully been broken/ mined.
+	 * @return true if the block has successfully been broken/ mined.
 	 * 
 	 * @see Direction
 	 */
 	public static boolean breakBlock(Direction dir, int pX, int pY) {
+		pX += 11;
 		if (dir == Direction.UP) {
 			if (canBeBroken(pY - 1, pX))
 				save(pY - 1, pX);
@@ -236,11 +237,11 @@ public class T {
 	}
 	
 	private static void save(int y, int x) {
-		Log.e("save", y - (((y / chunk.length)) * chunk.length) - (windowHeight / 2) + "");
-		Log.e("save2", x - (windowWidth / 2) + "");
+		//Log.e("save", y - (((y / chunk.length)) * chunk.length) - (windowHeight / 2) + "");
+		//Log.e("save2", x - (windowWidth / 2) + "");
 		
-		Log.e("save3", Diggerload.getTileInstance().getMapHeigth() + "");
-		Log.e("save4", Diggerload.getTileInstance().getMapWidth() + "");
+		//Log.e("save3", Diggerload.getTileInstance().getMapHeigth() + "");
+		//Log.e("save4", Diggerload.getTileInstance().getMapWidth() + "");
 		// Diggerload.getTileInstance().changeTile(x - (windowWidth / 2), y - (((y / chunk.length) - 1) * chunk.length) - (windowHeight / 2), AIR);
 		
 		GamePersistence file = new GamePersistence((y / chunk.length) + ".txt");

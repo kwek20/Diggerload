@@ -10,10 +10,12 @@ import android.gameengine.icadroids.input.TouchInput;
 import android.gameengine.icadroids.objects.collisions.TileCollision;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
+import net.castegaming.game.Diggerload;
+import net.castegaming.game.enums.Direction;
 import net.castegaming.game.enums.EntityType;
 import net.castegaming.game.enums.MoveWay;
 import net.castegaming.game.loadout.LoadOut;
-import net.castegaming.game.terrain.Terrain;
 
 public class Player extends Entity implements IAlarm{
 	
@@ -25,9 +27,32 @@ public class Player extends Entity implements IAlarm{
 	LoadOut[] loadOuts;
 	private boolean canMove = true;
 	
+	private boolean movingMove = true;
+	private int playerX = 100;
+	private int playerY = 40;
 	
+	/**
+	 * @author Jasper
+	 * Function to get the absolute player position.
+	 * 
+	 * @return - the absolute player position. (x)
+	 */
+	public int getPlayerX() {
+		return playerX;
+	}
+
+	/**
+	 * @author Jasper
+	 * Function used to get the absolute player position.
+	 * 
+	 * @return - the absolute player position. (y)
+	 */
+	public int getPlayerY() {
+		return playerY;
+	}
+
 	public Player() {
-		super(EntityType.PLAYER, 1, 1);
+		super(EntityType.PLAYER, (GameEngine.getScreenWidth() / 2) - (32 / 2) - 5, (GameEngine.getScreenHeight() / 2) - (32 / 2) + 4);
 		loadOuts = new LoadOut[4];
 		setFuelLevel(100.0);
 		setFriction(0.05);
@@ -35,6 +60,7 @@ public class Player extends Entity implements IAlarm{
 
 	@Override
 	public void update() {
+		/*
 		if (TouchInput.onPress && canMove){
 			if (TouchInput.xPos > GameEngine.getScreenWidth()/2){
 				move(MoveWay.RIGHT);
@@ -46,6 +72,7 @@ public class Player extends Entity implements IAlarm{
 				move(MoveWay.UP);
 			}
 		}
+		*/
 		
 		
 		super.update();
@@ -55,6 +82,89 @@ public class Player extends Entity implements IAlarm{
 		
 		setDirectionSpeed(direction, getSpeed() - 0.1);
 		
+		checkTouchInput();
+	}
+	
+	private void checkTouchInput() {
+		checkForMoveInput();
+		//checkForFireInput();
+	}
+	
+	private void checkForMoveInput() {
+		// check to see how many fingers there are on the screen
+		// 1 finger = move input
+		
+		if (TouchInput.onPress) {
+			Log.i("x", TouchInput.xPos + "");
+			Log.i("y", TouchInput.yPos + "");
+			Log.i("xPointer length", TouchInput.xPointer.length + "");
+		}
+		
+		if (TouchInput.xPointer.length == 10  && TouchInput.onPress && movingMode) {
+			Diggerload.updateTileEnvironment = true;
+			
+			Log.i("player move", "moving");
+			
+			if (TouchInput.xPos >= GameEngine.getScreenWidth() / 2) {
+				if (TouchInput.yPos >= GameEngine.getScreenHeight() / 2) {
+					// top right corner
+					if (xGreaterThenY()) {
+						// move right
+						movePlayer(Direction.RIGHT);
+					} else {
+						// move up
+						movePlayer(Direction.DOWN);
+					}
+				} else {
+					// bottom right corner
+					if (xGreaterThenY()) {
+						// move right
+						movePlayer(Direction.RIGHT);
+					} else {
+						// move down
+						movePlayer(Direction.UP);
+					}
+				}
+			} else {
+				if (TouchInput.yPos >= GameEngine.getScreenHeight() / 2) {
+					// top left corner
+					if (xGreaterThenY()) {
+						// move left
+						movePlayer(Direction.LEFT);
+					} else {
+						// move up
+						movePlayer(Direction.DOWN);
+					}
+				} else {
+					// bottom left corner
+					if (xGreaterThenY()) {
+						// move left
+						movePlayer(Direction.LEFT);
+					} else {
+						// move down
+						movePlayer(Direction.UP);
+					}
+				}
+			}
+		}
+	}
+	
+	private void movePlayer(Direction d) {
+		if (d.equals(Direction.UP)) {
+			playerY -= 1;
+		} else if (d.equals(Direction.RIGHT)) {
+			playerX += 1;
+		} else if (d.equals(Direction.DOWN)) {
+			playerY += 1;
+		} else if (d.equals(Direction.LEFT)) {
+			playerX -= 1;
+		} else {
+			Log.e("movePlayer", "invalid direction");
+		}
+	}
+	
+	private boolean xGreaterThenY() {
+		return (Math.abs(TouchInput.xPos - (GameEngine.getScreenWidth() / 2)) >= Math.abs(TouchInput.yPos - (GameEngine.getScreenHeight() / 2)));
 	}
 
 	/**
