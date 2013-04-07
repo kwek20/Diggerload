@@ -255,4 +255,10 @@ public class T {
 		
 		file.saveData(data);
 	}
+
+	public static int getTileType(int x, int y) {
+		getChunk(y / chunk.length);
+		
+		return chunk[y - ((y / chunk.length) * chunk.length)][x];
+	}
 }

@@ -13,23 +13,24 @@ public final class R {
     public static final class drawable {
         public static final int air=0x7f020000;
         public static final int bad_guy=0x7f020001;
-        public static final int buttona=0x7f020002;
-        public static final int buttonb=0x7f020003;
-        public static final int buttonx=0x7f020004;
-        public static final int buttony=0x7f020005;
-        public static final int dirt=0x7f020006;
-        public static final int dpad=0x7f020007;
-        public static final int drill=0x7f020008;
-        public static final int enemy=0x7f020009;
-        public static final int ic_launcher=0x7f02000a;
-        public static final int iron=0x7f02000b;
-        public static final int player=0x7f02000c;
-        public static final int select=0x7f02000d;
-        public static final int shoulder1=0x7f02000e;
-        public static final int shoulder2=0x7f02000f;
-        public static final int start=0x7f020010;
-        public static final int stone=0x7f020011;
-        public static final int unbre=0x7f020012;
+        public static final int button1=0x7f020002;
+        public static final int buttona=0x7f020003;
+        public static final int buttonb=0x7f020004;
+        public static final int buttonx=0x7f020005;
+        public static final int buttony=0x7f020006;
+        public static final int dirt=0x7f020007;
+        public static final int dpad=0x7f020008;
+        public static final int drill=0x7f020009;
+        public static final int enemy=0x7f02000a;
+        public static final int ic_launcher=0x7f02000b;
+        public static final int iron=0x7f02000c;
+        public static final int player=0x7f02000d;
+        public static final int select=0x7f02000e;
+        public static final int shoulder1=0x7f02000f;
+        public static final int shoulder2=0x7f020010;
+        public static final int start=0x7f020011;
+        public static final int stone=0x7f020012;
+        public static final int unbre=0x7f020013;
     }
     public static final class string {
         public static final int app_name=0x7f030000;

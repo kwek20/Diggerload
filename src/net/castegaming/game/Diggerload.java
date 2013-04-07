@@ -24,11 +24,9 @@ public class Diggerload extends GameEngine {
 	protected void initialize() {
 		super.initialize();
 		// player initialisation needs to occur before the calling of setTileEnvironment();
-		player = new Player();
+		player = new Player(this);
 		//setTileEnvironment();
-		TouchInput.use = true;
 
-		player = new Player();
 		Log.e("player", player.getPlayerX() + "");
 		Log.e("player", player.getPlayerY() + "");
 		Log.e("width", super.getScreenWidth() + "");
@@ -67,7 +65,8 @@ public class Diggerload extends GameEngine {
 		//T.clearFiles();
 		myTiles = new GameTiles(tileImagesNames, T.getTileMap(pX, pY), tileSize);
 		setTileMap(myTiles);
-		//T.breakBlock(Direction.DOWN, pX, pY);
+		// break the initial position of the player
+		T.breakBlock(Direction.DOWN, pX, pY - 1);
 		myTiles.addTileMap(T.getTileMap(pX, pY), tileSize);
 		myTiles.drawTiles(new Canvas());
     }

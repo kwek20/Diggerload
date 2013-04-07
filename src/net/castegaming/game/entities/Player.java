@@ -3,9 +3,11 @@ package net.castegaming.game.entities;
 import java.util.HashMap;
 import java.util.List;
 
+import Input.Button;
 import android.gameengine.icadroids.alarms.Alarm;
 import android.gameengine.icadroids.alarms.IAlarm;
 import android.gameengine.icadroids.engine.GameEngine;
+import android.gameengine.icadroids.input.OnScreenButtons;
 import android.gameengine.icadroids.input.TouchInput;
 import android.gameengine.icadroids.objects.collisions.TileCollision;
 import android.graphics.Canvas;
@@ -16,6 +18,7 @@ import net.castegaming.game.enums.Direction;
 import net.castegaming.game.enums.EntityType;
 import net.castegaming.game.enums.MoveWay;
 import net.castegaming.game.loadout.LoadOut;
+import net.castegaming.game.terrain.T;
 
 public class Player extends Entity implements IAlarm{
 	
@@ -27,9 +30,10 @@ public class Player extends Entity implements IAlarm{
 	LoadOut[] loadOuts;
 	private boolean canMove = true;
 	
-	private boolean movingMove = true;
+	private boolean movingMode = true;
 	private int playerX = 100;
 	private int playerY = 40;
+	private Button movingModeButton;
 	
 	/**
 	 * @author Jasper
@@ -51,11 +55,25 @@ public class Player extends Entity implements IAlarm{
 		return playerY;
 	}
 
-	public Player() {
+	public Player(Diggerload dl) {
 		super(EntityType.PLAYER, (GameEngine.getScreenWidth() / 2) - (32 / 2) - 5, (GameEngine.getScreenHeight() / 2) - (32 / 2) + 4);
 		loadOuts = new LoadOut[4];
 		setFuelLevel(100.0);
 		setFriction(0.05);
+		
+		OnScreenButtons.use = false;
+		TouchInput.use = true;
+		
+		movingModeButton = new Button(10, 10, this);
+		dl.addGameObject(movingModeButton);
+	}
+
+	public boolean getMovingMode() {
+		return movingMode;
+	}
+
+	public void setMovingMode(boolean movingMode) {
+		this.movingMode = movingMode;
 	}
 
 	@Override
@@ -86,11 +104,11 @@ public class Player extends Entity implements IAlarm{
 	}
 	
 	private void checkTouchInput() {
-		checkForMoveInput();
-		//checkForFireInput();
+		if (!movingModeButton.overButton())
+			checkForBasic();
 	}
 	
-	private void checkForMoveInput() {
+	private void checkForBasic() {
 		// check to see how many fingers there are on the screen
 		// 1 finger = move input
 		
@@ -100,49 +118,76 @@ public class Player extends Entity implements IAlarm{
 			Log.i("xPointer length", TouchInput.xPointer.length + "");
 		}
 		
-		if (TouchInput.xPointer.length == 10  && TouchInput.onPress && movingMode) {
+		if (TouchInput.xPointer.length == 10  && TouchInput.onPress) {
 			Diggerload.updateTileEnvironment = true;
 			
 			Log.i("player move", "moving");
+			
+			int pX = playerX;
+			int pY = playerY;
 			
 			if (TouchInput.xPos >= GameEngine.getScreenWidth() / 2) {
 				if (TouchInput.yPos >= GameEngine.getScreenHeight() / 2) {
 					// top right corner
 					if (xGreaterThenY()) {
-						// move right
-						movePlayer(Direction.RIGHT);
+						if (movingMode) {
+							movePlayer(Direction.RIGHT);
+						} else {
+							T.breakBlock(Direction.RIGHT, pX, pY);
+						}
 					} else {
-						// move up
-						movePlayer(Direction.DOWN);
+						if (movingMode) {
+							movePlayer(Direction.DOWN);
+						} else {
+							T.breakBlock(Direction.DOWN, pX, pY);
+						}
 					}
 				} else {
 					// bottom right corner
 					if (xGreaterThenY()) {
-						// move right
-						movePlayer(Direction.RIGHT);
+						if (movingMode) {
+							movePlayer(Direction.RIGHT);
+						} else {
+							T.breakBlock(Direction.RIGHT, pX, pY);
+						}
 					} else {
-						// move down
-						movePlayer(Direction.UP);
+						if (movingMode) {
+							movePlayer(Direction.UP);
+						} else {
+							T.breakBlock(Direction.UP, pX, pY);
+						}
 					}
 				}
 			} else {
 				if (TouchInput.yPos >= GameEngine.getScreenHeight() / 2) {
 					// top left corner
 					if (xGreaterThenY()) {
-						// move left
-						movePlayer(Direction.LEFT);
+						if (movingMode) {
+							movePlayer(Direction.LEFT);
+						} else {
+							T.breakBlock(Direction.LEFT, pX, pY);
+						}
 					} else {
-						// move up
-						movePlayer(Direction.DOWN);
+						if (movingMode) {
+							movePlayer(Direction.DOWN);
+						} else {
+							T.breakBlock(Direction.DOWN, pX, pY);
+						}
 					}
 				} else {
 					// bottom left corner
 					if (xGreaterThenY()) {
-						// move left
-						movePlayer(Direction.LEFT);
+						if (movingMode) {
+							movePlayer(Direction.LEFT);
+						} else {
+							T.breakBlock(Direction.LEFT, pX, pY);
+						}
 					} else {
-						// move down
-						movePlayer(Direction.UP);
+						if (movingMode) {
+							movePlayer(Direction.UP);
+						} else {
+							T.breakBlock(Direction.UP, pX, pY);
+						}
 					}
 				}
 			}
@@ -151,16 +196,25 @@ public class Player extends Entity implements IAlarm{
 	
 	private void movePlayer(Direction d) {
 		if (d.equals(Direction.UP)) {
-			playerY -= 1;
+			if (validMove(playerX, playerY - 1))
+				playerY -= 1;
 		} else if (d.equals(Direction.RIGHT)) {
-			playerX += 1;
+			if (validMove(playerX + 1, playerY))
+				playerX += 1;
 		} else if (d.equals(Direction.DOWN)) {
-			playerY += 1;
+			if (validMove(playerX, playerY + 1))
+				playerY += 1;
 		} else if (d.equals(Direction.LEFT)) {
-			playerX -= 1;
+			if (validMove(playerX - 1, playerY))
+				playerX -= 1;
 		} else {
 			Log.e("movePlayer", "invalid direction");
 		}
+		
+	}
+	
+	private boolean validMove(int x, int y) {
+		return (T.getTileType(x, y) == T.AIR);
 	}
 	
 	private boolean xGreaterThenY() {
