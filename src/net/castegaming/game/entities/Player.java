@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import Input.Button;
+import Input.MoveModeChangingButton;
 import android.gameengine.icadroids.alarms.Alarm;
 import android.gameengine.icadroids.alarms.IAlarm;
 import android.gameengine.icadroids.engine.GameEngine;
@@ -66,7 +67,7 @@ public class Player extends Entity implements IAlarm{
 		OnScreenButtons.use = false;
 		TouchInput.use = true;
 		
-		movingModeButton = new Button(10, 10, this);
+		movingModeButton = new MoveModeChangingButton(10, 10, "button1", this);
 		dl.addGameObject(movingModeButton);
 	}
 	

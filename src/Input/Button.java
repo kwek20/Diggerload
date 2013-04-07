@@ -5,12 +5,12 @@ import android.gameengine.icadroids.input.TouchInput;
 import android.gameengine.icadroids.objects.GameObject;
 
 /**
- * Class used to draw the button to switch between mining and moving mode.
+ * Class used to draw a simple button.
  * 
  * @author Jasper
  *
  */
-public class Button extends GameObject{
+public abstract class Button extends GameObject{
 	private int x, y;
 	private int size;
 	private String url;
@@ -21,7 +21,7 @@ public class Button extends GameObject{
 	 * 
 	 * @param x - the x coordinate of the button
 	 * @param y - the y coordinate of the button
-	 * @param playerInstance - the class the button responds to.
+	 * @param url - the url of the button texture
 	 */
 	public Button(int x, int y, String url) {
 		this.x = x;
@@ -49,7 +49,7 @@ public class Button extends GameObject{
 	
 	private void drawButton() {
 		super.setPosition(x, y);
-		      setSprite("button1");
+		      setSprite(url);
 		      
 		size = super.getFrameWidth();
 	}
@@ -62,5 +62,8 @@ public class Button extends GameObject{
 		return (TouchInput.xPos > x && TouchInput.xPos < x + size) && (TouchInput.yPos > y && TouchInput.yPos < y + size);
  	}
 	
-	private abstract void action();
+	/**
+	 * Function to be called on button press.
+	 */
+	public abstract void action();
 }
