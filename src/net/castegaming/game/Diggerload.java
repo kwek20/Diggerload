@@ -43,7 +43,7 @@ public class Diggerload extends GameEngine {
      * Create background with tiles
      */
     private void createTileEnvironment() {
-		String[] tileImagesNames = { "iron", "grass", "dirt", "stone" };
+		String[] tileImagesNames = { "unbre", "air", "dirt", "stone" };
 		
 		// Terrain.clearEverything();
 		//T.createFiles();

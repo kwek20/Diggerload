@@ -111,7 +111,7 @@ public class T {
 				
 				for (int i = 0; i <= 0; i++) {
 					//for (int k = -40; k < 50; k++) {
-						chunk[Integer.parseInt(index.get(0)) + i][Integer.parseInt(index.get(1)) - (windowWidth / 3)] = VOID;
+						chunk[Integer.parseInt(index.get(0)) + i][Integer.parseInt(index.get(1)) - (windowWidth / 3)] = AIR;
 					//}
 				}
 				// chunk[Integer.parseInt(index.get(0))][Integer.parseInt(index.get(1))] = AIR;
