@@ -59,7 +59,7 @@ public class Player extends Entity implements IAlarm{
 	public Player(Diggerload dl) {
 		super(EntityType.PLAYER, 
 				(GameEngine.getScreenWidth() / 2)- ((GameEngine.getScreenWidth() / 2) % 32), 
-				(GameEngine.getScreenHeight() / 3)- ((GameEngine.getScreenHeight() / 3) % 32));
+				(GameEngine.getScreenHeight() / 2)- ((GameEngine.getScreenHeight() / 2) % 32));
 		loadOuts = new LoadOut[4];
 		setFuelLevel(100.0);
 		setFriction(0.05);
