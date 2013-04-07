@@ -3,6 +3,8 @@ package net.castegaming.game;
 import net.castegaming.game.entities.BadGuy;
 import net.castegaming.game.entities.Player;
 import net.castegaming.game.enums.Direction;
+import net.castegaming.game.screen.IngameScreen;
+import net.castegaming.game.screen.Screen;
 import net.castegaming.game.terrain.T;
 import android.R.color;
 import android.gameengine.icadroids.engine.GameEngine;
@@ -12,10 +14,14 @@ import android.util.Log;
 
 public class Diggerload extends GameEngine {
 
-	static GameTiles myTiles;
-	private Player player;
-	private int tileSize = 32;
-	public static boolean updateTileEnvironment = true;
+	public static GameTiles myTiles = IngameScreen.myTiles;
+	public Player player;
+	public static boolean updateTileEnvironment = IngameScreen.updateTileEnvironment;
+	
+	/**
+	 * The screen the game is currently on
+	 */
+	public Screen currentScreen;
 	
 	@Override
 	protected void initialize() {
@@ -25,6 +31,7 @@ public class Diggerload extends GameEngine {
 		player = new Player(this);
 		
 		setTitle("Diggerload Alpha");
+		currentScreen = new IngameScreen();
 		
 		addGameObject(player);
 		addGameObject(new BadGuy(100, 100));
@@ -33,45 +40,6 @@ public class Diggerload extends GameEngine {
 	@Override
 	public void update() {
 		super.update();
-		setBackgroundColor(color.white);
-		setScreenLandscape(true);
-		
-		if (updateTileEnvironment) {
-			setTileEnvironment();
-			
-			updateTileEnvironment = false;
-		}
+		currentScreen.update(this);
 	}
-	
-	 /**
-	  * @author Jasper
-      * 
-      * Function used to create and update the tile environment
-      */
-    private void setTileEnvironment() {
-		String[] tileImagesNames = { "unbre", "air", "dirt", "stone" };
-		Log.e("tile", "setting tile environment");
-		
-		int pX = player.getPlayerX();
-		int pY = player.getPlayerY();
-		
-		//T.createFiles();
-		//T.clearFiles();
-		myTiles = new GameTiles(tileImagesNames, T.getTileMap(pX, pY), tileSize);
-		setTileMap(myTiles);
-		// break the initial position of the player
-		player.breakblock();
-		myTiles.addTileMap(T.getTileMap(pX, pY), tileSize);
-		myTiles.drawTiles(new Canvas());
-    }
-    
-    /**
-     * @author Jasper
-     * Function used to get the game tile instance used in setting the tilemap.
-     * 
-     * @return - the GameTile instance
-     */
-    public static GameTiles getTileInstance() {
-    	return myTiles;
-    }
 }

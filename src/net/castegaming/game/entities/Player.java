@@ -1,16 +1,14 @@
 package net.castegaming.game.entities;
 
-import java.util.HashMap;
-
 import Input.Button;
 import Input.MoveModeChangingButton;
-import android.R.integer;
 import android.gameengine.icadroids.alarms.IAlarm;
 import android.gameengine.icadroids.engine.GameEngine;
 import android.gameengine.icadroids.input.OnScreenButtons;
 import android.gameengine.icadroids.input.TouchInput;
 import android.graphics.Canvas;
 import android.util.Log;
+
 import net.castegaming.game.Diggerload;
 import net.castegaming.game.enums.Block;
 import net.castegaming.game.enums.Direction;
@@ -27,7 +25,7 @@ public class Player extends Entity implements IAlarm{
 	private int playerX = 100;
 	private int playerY = 40;
 	private Button movingModeButton;
-	private boolean canMove;
+	private boolean canMove = true;
 	private int points = 0;
 	
 	/**

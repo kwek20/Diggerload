@@ -540,7 +540,7 @@ public abstract class GameEngine extends Activity {
 	 * @param set
 	 *            the current gameTiles object.
 	 */
-	protected void setTileMap(GameTiles gameTiles) {
+	public void setTileMap(GameTiles gameTiles) {
 		GameEngine.gameTiles = gameTiles;
 		if ( view != null ) {
 		    view.setTileBasedMap(true);
