@@ -24,13 +24,14 @@ public final class R {
         public static final int enemy=0x7f02000a;
         public static final int ic_launcher=0x7f02000b;
         public static final int iron=0x7f02000c;
-        public static final int player=0x7f02000d;
-        public static final int select=0x7f02000e;
-        public static final int shoulder1=0x7f02000f;
-        public static final int shoulder2=0x7f020010;
-        public static final int start=0x7f020011;
-        public static final int stone=0x7f020012;
-        public static final int unbre=0x7f020013;
+        public static final int main_screen=0x7f02000d;
+        public static final int player=0x7f02000e;
+        public static final int select=0x7f02000f;
+        public static final int shoulder1=0x7f020010;
+        public static final int shoulder2=0x7f020011;
+        public static final int start=0x7f020012;
+        public static final int stone=0x7f020013;
+        public static final int unbre=0x7f020014;
     }
     public static final class string {
         public static final int app_name=0x7f030000;

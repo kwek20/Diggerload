@@ -14,6 +14,7 @@ import net.castegaming.game.enums.Block;
 import net.castegaming.game.enums.Direction;
 import net.castegaming.game.enums.EntityType;
 import net.castegaming.game.loadout.LoadOut;
+import net.castegaming.game.screen.IngameScreen;
 import net.castegaming.game.terrain.T;
 
 public class Player extends Entity implements IAlarm{
@@ -113,7 +114,7 @@ public class Player extends Entity implements IAlarm{
 		}
 		
 		if (TouchInput.xPointer.length == 10  && TouchInput.onPress) {
-			Diggerload.updateTileEnvironment = true;
+			IngameScreen.updateTileEnvironment = true;
 			
 			Log.i("player move", "moving");
 			

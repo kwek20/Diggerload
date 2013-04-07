@@ -8,11 +8,28 @@ import net.castegaming.game.Diggerload;
 import net.castegaming.game.entities.Player;
 import net.castegaming.game.terrain.T;
 
+/**
+ * The class for when the game is 'ingame'
+ * @author Brord
+ *
+ */
 public class IngameScreen extends Screen{
 
+	public Player player;
 	public static boolean updateTileEnvironment = true;
 	public static GameTiles myTiles;
 	private static final int tileSize = 32;
+	
+	/**
+	 * Constructor to create a new Screen.
+	 * @param game The game. update and player needs this
+	 */
+	public IngameScreen(Diggerload game){
+		// player initialisation needs to occur before the calling of setTileEnvironment();
+		player = new Player(game);
+		game.addGameObject(player);
+		update(game);
+	}
 
 	@Override
 	public void update(Diggerload game) {
@@ -20,10 +37,9 @@ public class IngameScreen extends Screen{
 		game.setScreenLandscape(true);
 		
 		if (updateTileEnvironment) {
-			setTileEnvironment(game.player);
+			setTileEnvironment();
 			game.setTileMap(myTiles);
-			updateTileEnvironment = true;
-			Log.i("INGAMESCREEN", "HELLO?!!");
+			updateTileEnvironment = false;
 		}
 	}
 	
@@ -32,19 +48,19 @@ public class IngameScreen extends Screen{
      * 
      * Function used to create and update the tile environment
      */
-   private void setTileEnvironment(Player p) {
+   private void setTileEnvironment() {
 		String[] tileImagesNames = { "unbre", "air", "dirt", "stone" };
 		Log.e("tile", "setting tile environment");
 		
-		int pX = p.getPlayerX();
-		int pY = p.getPlayerY();
+		int pX = player.getPlayerX();
+		int pY = player.getPlayerY();
 		
 		//T.createFiles();
 		//T.clearFiles();
 		myTiles = new GameTiles(tileImagesNames, T.getTileMap(pX, pY), tileSize);
 		
 		// break the initial position of the player
-		p.breakblock();
+		player.breakblock();
 		myTiles.addTileMap(T.getTileMap(pX, pY), tileSize);
 		myTiles.drawTiles(new Canvas());
    }
