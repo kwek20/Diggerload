@@ -67,11 +67,22 @@ public class Player extends Entity implements IAlarm{
 		movingModeButton = new Button(10, 10, this);
 		dl.addGameObject(movingModeButton);
 	}
-
+	
+	/**
+	 * Function used to get the status of the moving variable from the player class.
+	 * @return the movingMode variable (true if the player can be moved)
+	 * 
+	 * @author Jasper
+	 */
 	public boolean getMovingMode() {
 		return movingMode;
 	}
 
+	/**
+	 * Function used to set the moving mode for the player class.
+	 * 
+	 * @param movingMode - true if the player should be able to move.
+	 */
 	public void setMovingMode(boolean movingMode) {
 		this.movingMode = movingMode;
 	}
