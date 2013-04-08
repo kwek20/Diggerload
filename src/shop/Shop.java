@@ -2,6 +2,8 @@ package shop;
 
 import java.util.ArrayList;
 
+import android.util.Log;
+
 import Input.Button;
 import Input.ShopButton;
 
@@ -26,7 +28,9 @@ public class Shop{
 	public void addInv(LoadOut lo) {
 		inv.add(lo);
 	
-		if (lo.getType() == LoadOutType.FUELTANK) {
+		Log.e("add inv", lo.getType() + "");
+		
+		if (lo.getType().equals(LoadOutType.FUELTANK)) {
 			buttons.add(new ShopButton(startX, startY + (inv.size() * height), "fueltank", lo));
 		}else if (lo.getType().equals(LoadOutType.HULLSHIELD)) {
 			buttons.add(new ShopButton(startX, startY + (inv.size() * height), "hullshield", lo));

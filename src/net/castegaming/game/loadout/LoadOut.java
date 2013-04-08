@@ -27,11 +27,13 @@ public class LoadOut {
 	 * 
 	 * @param maxCapacity variable used to store the max value for the selected loadOut
 	 * @param price variable used to set the price for the selected loadout
+	 * @param the type of the current loadout
 	 */
 	public LoadOut(int maxCapacity, int price, LoadOutType type) {
 		this.maxCapacity = maxCapacity;
 		currentLevel = maxCapacity;
 		this.price = price;
+		
 		this.type = type;
 	}
 	

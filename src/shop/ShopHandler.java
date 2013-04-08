@@ -45,7 +45,9 @@ public class ShopHandler extends GameObject{
 		repairShopToggle = new ShopToggleButton(50, 10, "repairtoggle", ShopType.REPAIRSHOP);
 		dl.addGameObject(repairShopToggle);
 		
-		for (LoadOut lo : Player.getLoadOuts()) {
+		LoadOut[] loadouts = Player.getLoadOuts();
+		
+		for (LoadOut lo : loadouts) {
 			repairShop.addInv(lo);
 		}
 		
