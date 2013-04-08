@@ -1,5 +1,6 @@
 package net.castegaming.game.screen;
 
+import shop.ShopHandler;
 import android.R.color;
 import android.gameengine.icadroids.tiles.GameTiles;
 import android.graphics.Canvas;
@@ -29,6 +30,7 @@ public class IngameScreen extends Screen{
 		player = new Player(game);
 		game.addGameObject(player);
 		update(game);
+		game.addGameObject(new ShopHandler(game));
 	}
 
 	@Override
@@ -56,7 +58,7 @@ public class IngameScreen extends Screen{
 		int pY = player.getPlayerY();
 		
 		//T.createFiles();
-		//T.clearFiles();
+		T.clearFiles();
 		myTiles = new GameTiles(tileImagesNames, T.getTileMap(pX, pY), tileSize);
 		
 		// break the initial position of the player

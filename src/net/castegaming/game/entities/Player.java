@@ -13,6 +13,7 @@ import net.castegaming.game.Diggerload;
 import net.castegaming.game.enums.Block;
 import net.castegaming.game.enums.Direction;
 import net.castegaming.game.enums.EntityType;
+import net.castegaming.game.enums.LoadOutType;
 import net.castegaming.game.loadout.LoadOut;
 import net.castegaming.game.screen.IngameScreen;
 import net.castegaming.game.terrain.T;
@@ -20,7 +21,15 @@ import net.castegaming.game.terrain.T;
 public class Player extends Entity implements IAlarm{
 	
 	private double fuelLevel;
-	LoadOut[] loadOuts;
+	private static LoadOut[] loadOuts;
+	
+	/**
+	 * Function used to get the current player loadouts
+	 * @return the current player loadouts
+	 */
+	public static LoadOut[] getLoadOuts() {
+		return loadOuts;
+	}
 	
 	/**
 	 * The amount of money the player has
@@ -68,6 +77,9 @@ public class Player extends Entity implements IAlarm{
 		
 		movingModeButton = new MoveModeChangingButton(10, 10, "button1", this);
 		dl.addGameObject(movingModeButton);
+		
+		loadOuts[0] = new LoadOut(100, 5, LoadOutType.FUELTANK);
+		loadOuts[1] = new LoadOut(200, 20, LoadOutType.HULLSHIELD);
 	}
 	
 	/**

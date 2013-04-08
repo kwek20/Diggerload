@@ -12,7 +12,7 @@ public class LoadOut {
 	protected int maxCapacity;
 	protected int currentLevel;
 	protected int price;
-	protected LoadOutType type;
+	protected LoadOutType type = LoadOutType.UNDEF;
 	
 	/**
 	 * Function used the get the price of the current loadout.

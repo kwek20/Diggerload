@@ -1,5 +1,6 @@
 package net.castegaming.game;
 
+import shop.ShopHandler;
 import net.castegaming.game.screen.IngameScreen;
 import net.castegaming.game.screen.Screen;
 import net.castegaming.game.screen.StartScreen;

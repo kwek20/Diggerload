@@ -9,4 +9,5 @@ package net.castegaming.game.enums;
 public enum LoadOutType {
 	FUELTANK,
 	HULLSHIELD,
+	UNDEF
 }
