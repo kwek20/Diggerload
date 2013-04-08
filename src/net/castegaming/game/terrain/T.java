@@ -10,6 +10,7 @@ import net.castegaming.game.entities.BadGuy;
 import net.castegaming.game.enums.Block;
 import net.castegaming.game.enums.Direction;
 
+import android.R.integer;
 import android.gameengine.icadroids.persistence.GamePersistence;
 import android.util.Log;
 
@@ -180,36 +181,21 @@ public class T {
 	 * @see Direction
 	 */
 	public static boolean breakBlock(Direction dir, int pX, int pY) {
-		pX += 11;
+		//pX += 11;
 		
-		boolean canBeBroken = false;
-		
-		if (dir == Direction.UP) {
-			if (canBeBroken(pX, pY - 1))
-				save(pY - 1, pX);
-			canBeBroken = true;
-		} else if (dir == Direction.RIGHT) {
-			if (canBeBroken(pX + 1, pX))
-				save(pY, pX + 1);
-			canBeBroken = true;
-		} else if (dir == Direction.DOWN) {
-			if (canBeBroken(pX, pY + 1))
-				save(pY + 1, pX);
-			canBeBroken = true;
-		} else if (dir == Direction.LEFT) {
-			if (canBeBroken(pX - 1, pY))
-				save(pY, pX - 1);
-			canBeBroken = true;
-		}
-		
-		if (canBeBroken){
-			int chance = new Random().nextInt(10);
+		if (canBeBroken(pX+dir.x, pY+dir.y)){
+			chunk[(pY+dir.y) % 20][(pX+dir.x) % 200] = Block.AIR.ID;
+			save(pY+ dir.y, pX+ dir.x);
+			int chance = rn.nextInt(10);
 			if (chance == 1){
 				Diggerload.getGame().addGameObject(new BadGuy(pX, pY));
 			}
+			
+			Log.i("BLOCK VALUE",chunk[(pX+dir.x*4) % 20][(pY+dir.y*4) % 200] + "");
+			return true;
 		}
 		
-		return canBeBroken;
+		return false;
 	}
 	
 	/**
@@ -225,21 +211,14 @@ public class T {
 		
 		for (Integer i : blockBreakingBlackList) {
 			if (chunk[y - ((y / chunk.length) * chunk.length)][x] == i) {
+				
 				return false;
 			}
 		}
-		
 		return true;
 	}
 	
 	private static void save(int y, int x) {
-		//Log.e("save", y - (((y / chunk.length)) * chunk.length) - (windowHeight / 2) + "");
-		//Log.e("save2", x - (windowWidth / 2) + "");
-		
-		//Log.e("save3", Diggerload.getTileInstance().getMapHeigth() + "");
-		//Log.e("save4", Diggerload.getTileInstance().getMapWidth() + "");
-		// Diggerload.getTileInstance().changeTile(x - (windowWidth / 2), y - (((y / chunk.length) - 1) * chunk.length) - (windowHeight / 2), AIR);
-		
 		GamePersistence file = new GamePersistence((y / chunk.length) + ".txt");
 		String data = "";
 		
@@ -256,5 +235,12 @@ public class T {
 		getChunk(y / chunk.length);
 		
 		return chunk[y - ((y / chunk.length) * chunk.length)][x];
+	}
+	
+	public static void setTileType(int x, int y, Block b){
+		getChunk(y / chunk.length);
+		chunk[y - ((y / chunk.length) * chunk.length)][x] = b.ID;
+		save(y, x);
+		
 	}
 }

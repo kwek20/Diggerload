@@ -44,7 +44,7 @@ public class IngameScreen extends Screen{
 		if (updateTileEnvironment) {
 			setTileEnvironment();
 			game.setTileMap(myTiles);
-			updateTileEnvironment = false;
+			updateTileEnvironment = true;
 		}
 	}
 	
@@ -55,7 +55,6 @@ public class IngameScreen extends Screen{
      */
    private void setTileEnvironment() {
 		String[] tileImagesNames = { "unbre", "air", "dirt", "stone" };
-		Log.e("tile", "setting tile environment");
 		
 		int pX = player.getPlayerX();
 		int pY = player.getPlayerY();

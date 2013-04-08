@@ -2,6 +2,7 @@ package net.castegaming.game.entities;
 
 import Input.Button;
 import Input.MoveModeChangingButton;
+import Input.ShopToggleButton;
 import android.gameengine.icadroids.alarms.IAlarm;
 import android.gameengine.icadroids.engine.GameEngine;
 import android.gameengine.icadroids.input.OnScreenButtons;
@@ -14,10 +15,16 @@ import net.castegaming.game.enums.Block;
 import net.castegaming.game.enums.Direction;
 import net.castegaming.game.enums.EntityType;
 import net.castegaming.game.enums.LoadOutType;
+import net.castegaming.game.enums.ShopType;
 import net.castegaming.game.loadout.LoadOut;
 import net.castegaming.game.screen.IngameScreen;
 import net.castegaming.game.terrain.T;
 
+/**
+ * Main player class. Holds various variables and methods for different actions
+ * @author Brord
+ *
+ */
 public class Player extends Entity implements IAlarm{
 	
 	private double fuelLevel;
@@ -42,6 +49,7 @@ public class Player extends Entity implements IAlarm{
 	private Button movingModeButton;
 	private boolean canMove = true;
 	private int points = 0;
+	private Button shopButton;
 	
 	/**
 	 * @author Jasper
@@ -76,7 +84,10 @@ public class Player extends Entity implements IAlarm{
 		TouchInput.use = true;
 		
 		movingModeButton = new MoveModeChangingButton(10, 10, "button1", this);
+		shopButton = new ShopToggleButton(40, 10, "button1", ShopType.REPAIRSHOP);
 		dl.addGameObject(movingModeButton);
+		dl.addGameObject(shopButton);
+		
 		
 		loadOuts[0] = new LoadOut(100, 5, LoadOutType.FUELTANK);
 		loadOuts[1] = new LoadOut(200, 20, LoadOutType.HULLSHIELD);
@@ -116,7 +127,7 @@ public class Player extends Entity implements IAlarm{
 	}
 	
 	private void checkTouchInput() {
-		if (!movingModeButton.overButton())
+		if (!movingModeButton.overButton() && !shopButton.overButton())
 			checkForBasic();
 	}
 	
@@ -124,17 +135,8 @@ public class Player extends Entity implements IAlarm{
 		// check to see how many fingers there are on the screen
 		// 1 finger = move input
 		
-		if (TouchInput.onPress) {
-			Log.i("x", TouchInput.xPos + "");
-			Log.i("y", TouchInput.yPos + "");
-			Log.i("xPointer length", TouchInput.xPointer.length + "");
-		}
-		
 		if (TouchInput.xPointer.length == 10  && TouchInput.onPress && canMove) {
 			IngameScreen.updateTileEnvironment = true;
-			
-			int pX = playerX;
-			int pY = playerY;
 			
 			if (TouchInput.xPos >= GameEngine.getScreenWidth() / 2) {
 				if (TouchInput.yPos >= GameEngine.getScreenHeight() / 2) {
@@ -275,7 +277,9 @@ public class Player extends Entity implements IAlarm{
 	 * Function to handle a player which breaks a block
 	 */
 	public void breakBlock(Direction d) {
-		int blocktype = T.getTileType(playerX, playerY);
+		int blocktype = T.getTileType(playerX+d.x, playerY+d.y);
+		T.setTileType(playerX+d.x, playerY+d.y, Block.AIR);
+		Log.i("Breakblock", "Tiletype: " + Block.fromID(blocktype));
 		givePoints(blocktype);
 		
 		T.breakBlock(d, getPlayerX(), getPlayerY());

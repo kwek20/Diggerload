@@ -61,13 +61,5 @@ public class ShopHandler extends GameObject{
 		} else {
 			repairShop.destroyButtons();
 		}
-		
-		/*
-		if (upgradeShopOpen) {
-			upgradeShop.createButtons();
-		}else {
-			upgradeShop.destroyButtons();
-		}
-		*/
 	}
 }
