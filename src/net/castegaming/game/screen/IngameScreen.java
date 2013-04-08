@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.util.Log;
 import net.castegaming.game.Diggerload;
 import net.castegaming.game.entities.Player;
+import net.castegaming.game.enums.Direction;
 import net.castegaming.game.terrain.T;
 
 /**
@@ -30,7 +31,9 @@ public class IngameScreen extends Screen{
 		player = new Player(game);
 		game.addGameObject(player);
 		update(game);
-		game.addGameObject(new ShopHandler(game));
+		// break the initial position of the player
+		player.breakBlock(Direction.DOWN);
+		//game.addGameObject(new ShopHandler(game));
 	}
 
 	@Override
@@ -61,8 +64,6 @@ public class IngameScreen extends Screen{
 		T.clearFiles();
 		myTiles = new GameTiles(tileImagesNames, T.getTileMap(pX, pY), tileSize);
 		
-		// break the initial position of the player
-		player.breakblock();
 		myTiles.addTileMap(T.getTileMap(pX, pY), tileSize);
 		myTiles.drawTiles(new Canvas());
    }

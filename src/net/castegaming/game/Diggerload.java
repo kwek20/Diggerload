@@ -12,6 +12,7 @@ public class Diggerload extends GameEngine {
 
 	public static GameTiles myTiles = IngameScreen.myTiles;
 	public static boolean updateTileEnvironment = IngameScreen.updateTileEnvironment;
+	private static GameEngine game;
 	
 	/**
 	 * The screen the game is currently on
@@ -26,6 +27,7 @@ public class Diggerload extends GameEngine {
 		TouchInput.use = true;
 		
 		currentScreen = new StartScreen(this);
+		game = this;
 		//currentScreen = new IngameScreen(this);
 	}
 	
@@ -33,5 +35,10 @@ public class Diggerload extends GameEngine {
 	public void update() {
 		super.update();
 		currentScreen.update(this);
+	}
+
+	public static GameEngine getGame() {
+		// TODO Auto-generated method stub
+		return game;
 	}
 }

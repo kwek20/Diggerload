@@ -130,10 +130,8 @@ public class Player extends Entity implements IAlarm{
 			Log.i("xPointer length", TouchInput.xPointer.length + "");
 		}
 		
-		if (TouchInput.xPointer.length == 10  && TouchInput.onPress) {
+		if (TouchInput.xPointer.length == 10  && TouchInput.onPress && canMove) {
 			IngameScreen.updateTileEnvironment = true;
-			
-			Log.i("player move", "moving");
 			
 			int pX = playerX;
 			int pY = playerY;
@@ -144,14 +142,16 @@ public class Player extends Entity implements IAlarm{
 					if (xGreaterThenY()) {
 						if (movingMode) {
 							movePlayer(Direction.RIGHT);
+							breakBlock(Direction.RIGHT);
 						} else {
-							T.breakBlock(Direction.RIGHT, pX, pY);
+							
 						}
 					} else {
 						if (movingMode) {
 							movePlayer(Direction.DOWN);
+							breakBlock(Direction.DOWN);
 						} else {
-							T.breakBlock(Direction.DOWN, pX, pY);
+							
 						}
 					}
 				} else {
@@ -159,14 +159,16 @@ public class Player extends Entity implements IAlarm{
 					if (xGreaterThenY()) {
 						if (movingMode) {
 							movePlayer(Direction.RIGHT);
+							breakBlock(Direction.RIGHT);
 						} else {
-							T.breakBlock(Direction.RIGHT, pX, pY);
+							
 						}
 					} else {
 						if (movingMode) {
 							movePlayer(Direction.UP);
+							breakBlock(Direction.UP);
 						} else {
-							T.breakBlock(Direction.UP, pX, pY);
+							
 						}
 					}
 				}
@@ -176,14 +178,16 @@ public class Player extends Entity implements IAlarm{
 					if (xGreaterThenY()) {
 						if (movingMode) {
 							movePlayer(Direction.LEFT);
+							breakBlock(Direction.LEFT);
 						} else {
-							T.breakBlock(Direction.LEFT, pX, pY);
+							
 						}
 					} else {
 						if (movingMode) {
 							movePlayer(Direction.DOWN);
+							breakBlock(Direction.DOWN);
 						} else {
-							T.breakBlock(Direction.DOWN, pX, pY);
+							
 						}
 					}
 				} else {
@@ -191,14 +195,16 @@ public class Player extends Entity implements IAlarm{
 					if (xGreaterThenY()) {
 						if (movingMode) {
 							movePlayer(Direction.LEFT);
+							breakBlock(Direction.LEFT);
 						} else {
-							T.breakBlock(Direction.LEFT, pX, pY);
+							
 						}
 					} else {
 						if (movingMode) {
 							movePlayer(Direction.UP);
+							breakBlock(Direction.UP);
 						} else {
-							T.breakBlock(Direction.UP, pX, pY);
+							
 						}
 					}
 				}
@@ -208,11 +214,11 @@ public class Player extends Entity implements IAlarm{
 	
 	private void movePlayer(Direction d) {
 		if (d.equals(Direction.UP) ||  d.equals(Direction.DOWN)) {
-			if (validMove(playerX, playerY - d.move))
-				playerY += d.move;
+			if (validMove(playerX, playerY + d.y))
+				playerY += d.y;
 		} else if (d.equals(Direction.RIGHT) || d.equals(Direction.LEFT)) {
-			if (validMove(playerX + 1, playerY))
-				playerX += d.move;
+			if (validMove(playerX + d.x, playerY))
+				playerX += d.x;
 		} else {
 			Log.e("movePlayer", "invalid direction");
 		}
@@ -268,11 +274,11 @@ public class Player extends Entity implements IAlarm{
 	/**
 	 * Function to handle a player which breaks a block
 	 */
-	public void breakblock() {
+	public void breakBlock(Direction d) {
 		int blocktype = T.getTileType(playerX, playerY);
 		givePoints(blocktype);
 		
-		T.breakBlock(Direction.DOWN, getPlayerX(), getPlayerY() - 1);
+		T.breakBlock(d, getPlayerX(), getPlayerY());
 	}
 	
 	/**

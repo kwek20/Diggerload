@@ -185,27 +185,27 @@ public class T {
 		boolean canBeBroken = false;
 		
 		if (dir == Direction.UP) {
-			if (canBeBroken(pY - 1, pX))
+			if (canBeBroken(pX, pY - 1))
 				save(pY - 1, pX);
-			canBeBroken = canBeBroken(pY - 1, pX);
+			canBeBroken = true;
 		} else if (dir == Direction.RIGHT) {
-			if (canBeBroken(pY, pX + 1))
+			if (canBeBroken(pX + 1, pX))
 				save(pY, pX + 1);
-			canBeBroken = canBeBroken(pY, pX + 1);
+			canBeBroken = true;
 		} else if (dir == Direction.DOWN) {
-			if (canBeBroken(pY + 1, pX))
+			if (canBeBroken(pX, pY + 1))
 				save(pY + 1, pX);
-			canBeBroken = canBeBroken(pY + 1, pX);
+			canBeBroken = true;
 		} else if (dir == Direction.LEFT) {
-			if (canBeBroken(pY, pX - 1))
+			if (canBeBroken(pX - 1, pY))
 				save(pY, pX - 1);
-			canBeBroken = canBeBroken(pY, pX - 1);
+			canBeBroken = true;
 		}
 		
 		if (canBeBroken){
 			int chance = new Random().nextInt(10);
 			if (chance == 1){
-				new BadGuy(pX, pY);
+				Diggerload.getGame().addGameObject(new BadGuy(pX, pY));
 			}
 		}
 		
